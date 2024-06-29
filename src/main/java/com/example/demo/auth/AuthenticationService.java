@@ -1,5 +1,6 @@
 package com.example.demo.auth;
 
+import com.example.demo.exception.BadRequestException;
 import com.example.demo.security.JwtService;
 import com.example.demo.token.Token;
 import com.example.demo.token.TokenRepository;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -37,16 +37,13 @@ public class AuthenticationService {
 
     public AuthenticationResponse login(LoginRequest request) {
         String username = request.getUsername();
-        try {
-            authManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            username,
-                            request.getPassword()
-                    )
-            );
-        } catch (AuthenticationException e) {
-            throw new RuntimeException(e.getMessage());
-        }
+
+        authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        username,
+                        request.getPassword()
+                )
+        );
 
         User user = userRepository.findUserByUsernameOrEmail(username, username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username or Email not found"));
@@ -73,6 +70,14 @@ public class AuthenticationService {
                 .lastName(request.getLastName())
                 .role(Role.ROLE_USER)
                 .build();
+
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new BadRequestException("Username is already taken");
+        }
+
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new BadRequestException("Email is already taken");
+        }
 
         String accessToken = jwtService.generateJwtToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);

@@ -1,23 +1,69 @@
-GET localhost:8080/api/v1/employees/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwidXNlcm5hbWUiOiJKb2huIERvZSIsImlhdCI6MTUxNjIzOTAyMn0.p5Csu2THYW5zJys2CWdbGM8GaWjpY6lOQpdLoP4D7V4
+### Sign in
+POST http://localhost:8080/api/v1/auth/sign-in
+Content-Type: application/json
+
+{
+  "username": "nhannguyen",
+  "password": "123456",
+  "email": "haha@gmail.com",
+  "firstName": "Nhan",
+  "lastName": "Do"
+}
 
 ### Login
 POST http://localhost:8080/api/v1/auth/login
 Content-Type: application/json
 
 {
-    "username": "nhan",
-    "password": "123456"
+  "username": "haha@gmail.com",
+  "password": "123456"
 }
 
-### Sign in
-POST http://localhost:8080/api/v1/auth/sign-in
+### Expired token
+GET http://localhost:8080/security
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFuIiwiaWF0IjoxNzE5NjU4NDE0LCJleHAiOjE3MTk2NTg0MTR9.FTmgu3OXLSJ43PgBrtSxZ5giRCOepyCO9e4aGLdQ9n1GXwoIvcbPpZpW4unED581f5Yl6lsxLmOjy1PJt3wupw
+
+<> 2024-06-29T180329.401.txt
+
+### No bearer token
+GET http://localhost:8080/security
+
+### True token
+GET http://localhost:8080/security
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFuIiwiaWF0IjoxNzE5NjM3NTg4LCJleHAiOjE3MjAyNDIzODh9.-V4p4i_9yuNKXHqYMeDExpAZfjjeCo71SNwUOLnvqzX3Lo3Hpoff-B4FOupeBU8MTKc9qmNevxr826N4Be6_gQ
+
+### FAKE TOKEN
+GET http://localhost:8080/security
+Authorization: Bearer nhannnguyen.asdbas.cewae
+
+### ADMIN ROLE
+GET http://localhost:8080/api/v1/admin/secret
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFuIiwiaWF0IjoxNzE5NjM3NTg4LCJleHAiOjE3MjAyNDIzODh9.-V4p4i_9yuNKXHqYMeDExpAZfjjeCo71SNwUOLnvqzX3Lo3Hpoff-B4FOupeBU8MTKc9qmNevxr826N4Be6_gQ
+
+### Not found endpoint - admin role
+GET http://localhost:8080/not-found
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFuIiwiaWF0IjoxNzE5NjM3NTg4LCJleHAiOjE3MjAyNDIzODh9.-V4p4i_9yuNKXHqYMeDExpAZfjjeCo71SNwUOLnvqzX3Lo3Hpoff-B4FOupeBU8MTKc9qmNevxr826N4Be6_gQ
+
+<> 2024-06-29T175156.404.json
+<> 2024-06-29T175035.404.json
+<> 2024-06-29T170722.500.json
+<> 2024-06-29T162612.500.json
+
+### No endpoint - white url
+GET http://localhost:8080/api/v1/auth/not-found
+
+### Change password
+POST http://localhost:8080/api/v1/user/change-password
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFuIiwiaWF0IjoxNzE5NjY2NTA2LCJleHAiOjE3MjAyNzEzMDZ9.CgKGzEp9XLVEqk2iM_8cpPSDrLa0nDvyObhWWOsVgsLRTi1hRXT18-XwN3-JQmE9yjU6cJroBrmTwiroOSfl8A
 Content-Type: application/json
 
 {
-  "username": "nhan",
-  "password": "123456",
-  "email": "nann@gmail.com",
-  "firstName": "Nhan",
-  "lastName": "Do"
+  "currentPassword": "123456",
+  "newPassword": "1234567",
+  "confirmationPassword": "1234567"
 }
+
+### Forbidden
+GET http://localhost:8080/api/v1/admin/secret
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFubmd1eWVuIiwiaWF0IjoxNzE5NjcwNzI5LCJleHAiOjE3MjAyNzU1Mjl9.bAZgV7rmuErmkEWmal3HtCh5nhPpsLJv41qnBjHIlI096a7mbXVXcNA192aA1hgV7Ko_wCpNnJ_DaJIS76hVAw
+

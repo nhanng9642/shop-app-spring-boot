@@ -1,6 +1,8 @@
 package com.example.demo.security;
 
 import com.example.demo.exception.ErrorResponse;
+import com.example.demo.token.Token;
+import com.example.demo.token.TokenRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -27,6 +29,8 @@ import java.io.IOException;
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final TokenRepository tokenRepository;
+
     Logger log = LoggerFactory.getLogger(JwtAuthFilter.class);
 
     @Override
@@ -35,7 +39,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
              @NonNull HttpServletResponse response,
              @NonNull FilterChain filterChain) throws ServletException, IOException {
         String header = request.getHeader("Authorization");
-       try {
+        try {
             if (header == null || !header.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
             }
@@ -43,6 +47,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 int beginTokenIndex = 7; //length of "Bearer "
                 final String jwt = header.substring(beginTokenIndex);
                 final String username = jwtService.extractUsername(jwt);
+
+                Token token = tokenRepository.findByToken(jwt).orElse(null);
+                if (token != null && token.isRevoked()) {
+                    filterChain.doFilter(request, response);
+                    return;
+                }
+
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails user = userDetailsService.loadUserByUsername(username);
                     if (!jwtService.isTokenExpired(jwt)) {
