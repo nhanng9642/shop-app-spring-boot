@@ -1,0 +1,23 @@
+GET localhost:8080/api/v1/employees/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwidXNlcm5hbWUiOiJKb2huIERvZSIsImlhdCI6MTUxNjIzOTAyMn0.p5Csu2THYW5zJys2CWdbGM8GaWjpY6lOQpdLoP4D7V4
+
+### Login
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "username": "nhan",
+    "password": "123456"
+}
+
+### Sign in
+POST http://localhost:8080/api/v1/auth/sign-in
+Content-Type: application/json
+
+{
+  "username": "nhan",
+  "password": "123456",
+  "email": "nann@gmail.com",
+  "firstName": "Nhan",
+  "lastName": "Do"
+}
