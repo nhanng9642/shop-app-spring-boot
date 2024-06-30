@@ -5,6 +5,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import org.slf4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -20,6 +21,15 @@ public class GlobalException {
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setStatus(400);
         errorResponse.setMessage(e.getMessage());
+        return ResponseEntity.status(400).body(errorResponse);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        e.printStackTrace();
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setStatus(400);
+        errorResponse.setMessage(e.getBindingResult().getFieldError().getDefaultMessage());
         return ResponseEntity.status(400).body(errorResponse);
     }
 

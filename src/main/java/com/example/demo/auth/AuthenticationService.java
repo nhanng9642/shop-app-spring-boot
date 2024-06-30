@@ -8,6 +8,7 @@ import com.example.demo.user.Role;
 import com.example.demo.user.User;
 import com.example.demo.user.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -35,7 +36,7 @@ public class AuthenticationService {
     @Value("${application.security.jwt.expiration}")
     private int timeExpiration;
 
-    public AuthenticationResponse login(LoginRequest request) {
+    public AuthenticationResponse login(@Valid LoginRequest request) {
         String username = request.getUsername();
 
         authManager.authenticate(
@@ -60,7 +61,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse register(RegisterRequest request){
+    public AuthenticationResponse register(@Valid RegisterRequest request){
         User user = User
                 .builder()
                 .email(request.getEmail())
@@ -108,18 +109,22 @@ public class AuthenticationService {
             Token token = tokenRepository.findByToken(refreshToken)
                     .orElseThrow(() -> new AuthenticationCredentialsNotFoundException("Token is invalid"));
 
-            if (!token.isRevoked() && !jwtService.isTokenExpired(refreshToken)) {
-                String accessToken = jwtService.generateJwtToken(user);
-                return AuthenticationResponse
-                        .builder()
-                        .refreshToken(refreshToken)
-                        .accessToken(accessToken)
-                        .timeExpiration(timeExpiration)
-                        .build();
-            }
-            throw new RuntimeException("Token is expired");
+            if (token.isRevoked())
+                throw new BadRequestException("Token is revoked");
+
+            if (jwtService.isTokenExpired(refreshToken))
+                throw new BadRequestException("Token is expired");
+
+            String accessToken = jwtService.generateJwtToken(user);
+            return AuthenticationResponse
+                    .builder()
+                    .refreshToken(refreshToken)
+                    .accessToken(accessToken)
+                    .timeExpiration(timeExpiration)
+                    .build();
+
         }
-        throw new RuntimeException("Token is not valid");
+        throw new BadRequestException("Token is not valid");
     }
 
     private void saveUserToken(User user, String jwt) {

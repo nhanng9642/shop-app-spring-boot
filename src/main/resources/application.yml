@@ -6,6 +6,16 @@ spring:
   jpa:
     database: mysql
     show-sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 183579654844-qlnsl2utm5jje30v9mibvn6u1o36ked8.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
 
 application:
   security:

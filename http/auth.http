@@ -3,11 +3,11 @@ POST http://localhost:8080/api/v1/auth/sign-in
 Content-Type: application/json
 
 {
-  "username": "nhannguyen",
+  "username": "qw",
   "password": "123456",
-  "email": "haha@gmail.com",
-  "firstName": "Nhan",
-  "lastName": "Do"
+  "email": "haqweqwha11@gmail.com",
+  "firstName": "",
+  "lastName": ""
 }
 
 ### Login
@@ -67,3 +67,10 @@ Content-Type: application/json
 GET http://localhost:8080/api/v1/admin/secret
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFubmd1eWVuIiwiaWF0IjoxNzE5NjcwNzI5LCJleHAiOjE3MjAyNzU1Mjl9.bAZgV7rmuErmkEWmal3HtCh5nhPpsLJv41qnBjHIlI096a7mbXVXcNA192aA1hgV7Ko_wCpNnJ_DaJIS76hVAw
 
+### Log out
+GET http://localhost:8080/api/v1/auth/logout
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFubmd1eWVuIiwiaWF0IjoxNzE5NjcwNzI5LCJleHAiOjE3MjAyNzU1Mjl9.bAZgV7rmuErmkEWmal3HtCh5nhPpsLJv41qnBjHIlI096a7mbXVXcNA192aA1hgV7Ko_wCpNnJ_DaJIS76hVAw
+
+###Refresh token
+POST http://localhost:8080/api/v1/auth/refresh-token
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFubmd1eWVuIiwiaWF0IjoxNzE5NjcwNzI5LCJleHAiOjE3MjAyNzU1Mjl9.bAZgV7rmuErmkEWmal3HtCh5nhPpsLJv41qnBjHIlI096a7mbXVXcNA192aA1hgV7Ko_wCpNnJ_DaJIS76hVAw
