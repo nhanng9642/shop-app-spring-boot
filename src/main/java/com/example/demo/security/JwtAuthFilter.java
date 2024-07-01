@@ -1,5 +1,6 @@
 package com.example.demo.security;
 
+import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.ErrorResponse;
 import com.example.demo.token.Token;
 import com.example.demo.token.TokenRepository;
@@ -44,14 +45,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
             }
             else {
+                String requestUri = request.getRequestURI();
+                if (requestUri.equals("/oauth2/authorization/google")) {
+                    filterChain.doFilter(request, response);
+                    return;
+                }
+
                 int beginTokenIndex = 7; //length of "Bearer "
                 final String jwt = header.substring(beginTokenIndex);
                 final String username = jwtService.extractUsername(jwt);
 
                 Token token = tokenRepository.findByToken(jwt).orElse(null);
                 if (token != null && token.isRevoked()) {
-                    filterChain.doFilter(request, response);
-                    return;
+                    throw new BadRequestException("Token is revoked");
                 }
 
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -88,6 +94,26 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             ErrorResponse errorResponse = new ErrorResponse();
             errorResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
             errorResponse.setMessage(mje.getMessage());
+
+            new ObjectMapper().writeValue(response.getOutputStream(),
+                    errorResponse);
+        } catch (BadRequestException bre) {
+            log.info("Security exception: {}", bre.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+            errorResponse.setMessage(bre.getMessage());
+
+            new ObjectMapper().writeValue(response.getOutputStream(),
+                    errorResponse);
+        } catch (Exception e) {
+            log.error("Security exception: {}", e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
+            ErrorResponse errorResponse = new ErrorResponse();
+            errorResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            errorResponse.setMessage(e.getMessage());
 
             new ObjectMapper().writeValue(response.getOutputStream(),
                     errorResponse);

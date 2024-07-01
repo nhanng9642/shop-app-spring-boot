@@ -3,11 +3,11 @@ POST http://localhost:8080/api/v1/auth/sign-in
 Content-Type: application/json
 
 {
-  "username": "qw",
+  "username": "nhgn2",
   "password": "123456",
-  "email": "haqweqwha11@gmail.com",
-  "firstName": "",
-  "lastName": ""
+  "email": "nhann9642@gmail.com",
+  "firstName": "nhan",
+  "lastName": "nguyen"
 }
 
 ### Login
@@ -26,11 +26,11 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFuIiwiaWF0IjoxNzE5NjU4N
 <> 2024-06-29T180329.401.txt
 
 ### No bearer token
-GET http://localhost:8080/security
+GET http://localhost:8080/home
 
 ### True token
 GET http://localhost:8080/security
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFuIiwiaWF0IjoxNzE5NjM3NTg4LCJleHAiOjE3MjAyNDIzODh9.-V4p4i_9yuNKXHqYMeDExpAZfjjeCo71SNwUOLnvqzX3Lo3Hpoff-B4FOupeBU8MTKc9qmNevxr826N4Be6_gQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGduMiIsImlhdCI6MTcxOTczNjIxNiwiZXhwIjoxNzIwMzQxMDE2fQ.dyEf8aPCmKdB859dxE4rIPQsebUaPNssrn6tZe53JvNVxTJQM1gQQKc1-cR-8iBsvZiG1TTWApZQzfFI9Gn8Fw
 
 ### FAKE TOKEN
 GET http://localhost:8080/security
@@ -38,16 +38,11 @@ Authorization: Bearer nhannnguyen.asdbas.cewae
 
 ### ADMIN ROLE
 GET http://localhost:8080/api/v1/admin/secret
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFuIiwiaWF0IjoxNzE5NjM3NTg4LCJleHAiOjE3MjAyNDIzODh9.-V4p4i_9yuNKXHqYMeDExpAZfjjeCo71SNwUOLnvqzX3Lo3Hpoff-B4FOupeBU8MTKc9qmNevxr826N4Be6_gQ
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGduMiIsImlhdCI6MTcxOTczNjIxNiwiZXhwIjoxNzIwMzQxMDE2fQ.dyEf8aPCmKdB859dxE4rIPQsebUaPNssrn6tZe53JvNVxTJQM1gQQKc1-cR-8iBsvZiG1TTWApZQzfFI9Gn8Fw
 
 ### Not found endpoint - admin role
 GET http://localhost:8080/not-found
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFuIiwiaWF0IjoxNzE5NjM3NTg4LCJleHAiOjE3MjAyNDIzODh9.-V4p4i_9yuNKXHqYMeDExpAZfjjeCo71SNwUOLnvqzX3Lo3Hpoff-B4FOupeBU8MTKc9qmNevxr826N4Be6_gQ
-
-<> 2024-06-29T175156.404.json
-<> 2024-06-29T175035.404.json
-<> 2024-06-29T170722.500.json
-<> 2024-06-29T162612.500.json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGduMiIsImlhdCI6MTcxOTczNjIxNiwiZXhwIjoxNzIwMzQxMDE2fQ.dyEf8aPCmKdB859dxE4rIPQsebUaPNssrn6tZe53JvNVxTJQM1gQQKc1-cR-8iBsvZiG1TTWApZQzfFI9Gn8Fw
 
 ### No endpoint - white url
 GET http://localhost:8080/api/v1/auth/not-found
