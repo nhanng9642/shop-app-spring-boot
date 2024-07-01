@@ -25,15 +25,15 @@ create table token (
 
 
 CREATE TABLE category (
-    category_id     integer auto_increment PRIMARY KEY,
+    id     integer auto_increment PRIMARY KEY,
     category_name   VARCHAR(100),
+    description     TEXT,
     inserted_at timestamp default now() not null,
-    updated_at  timestamp default now() not null,
-    description     TEXT
+    updated_at  timestamp default now() not null
 );
 
 CREATE TABLE book (
-       book_id              SERIAL PRIMARY KEY,
+       id              SERIAL PRIMARY KEY,
        title                VARCHAR(255),
        category_id          INT,
        author               VARCHAR(100),
@@ -45,21 +45,21 @@ CREATE TABLE book (
        book_image           VARCHAR(255),
        inserted_at timestamp default now() not null,
        updated_at  timestamp default now() not null,
-       FOREIGN KEY (category_id) REFERENCES category(category_id)
+       FOREIGN KEY (category_id) REFERENCES category(id)
 );
 
 CREATE TABLE customer (
-       customer_id          serial PRIMARY KEY,
+       id          serial PRIMARY KEY,
        name                 NVARCHAR(100),
        email                VARCHAR(100),
        address              NVARCHAR(255),
+       phone                VARCHAR(20),
        inserted_at timestamp default now() not null,
-       updated_at  timestamp default now() not null,
-       phone                VARCHAR(20)
+       updated_at  timestamp default now() not null
 );
 
 CREATE TABLE sale_order (
-        order_id            serial,
+        id                  serial,
         customer_id         BIGINT UNSIGNED not null,
         order_date          DATE,
         total               float,
@@ -67,19 +67,19 @@ CREATE TABLE sale_order (
         status              VARCHAR(50),
         inserted_at timestamp default now() not null,
         updated_at  timestamp default now() not null,
-        primary key pk_sale_order (order_id),
-        FOREIGN KEY (customer_id) REFERENCES customer(customer_id)
+        primary key pk_sale_order (id),
+        FOREIGN KEY (customer_id) REFERENCES customer(id)
 );
 
 CREATE TABLE order_detail (
-          order_id          BIGINT UNSIGNED not null,
+          id                BIGINT UNSIGNED not null,
           book_id           BIGINT UNSIGNED not null,
           quantity          INT,
           price             float,
           total             float,
           inserted_at timestamp default now() not null,
           updated_at  timestamp default now() not null,
-          PRIMARY KEY (order_id, book_id),
-          FOREIGN KEY (order_id) REFERENCES sale_order(order_id),
-          FOREIGN KEY (book_id) REFERENCES book(book_id)
+          PRIMARY KEY (id, book_id),
+          FOREIGN KEY (id) REFERENCES sale_order(id),
+          FOREIGN KEY (id) REFERENCES book(id)
 );

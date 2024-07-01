@@ -26,7 +26,7 @@ public class SecurityConfiguration {
 
     private final JwtAuthFilter jwtAuthFilter;
     private final LogoutHandler logoutHandler;
-
+    private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)
             throws Exception {
@@ -39,7 +39,7 @@ public class SecurityConfiguration {
                         .authenticated()
                 )
                 .exceptionHandling(e -> e
-                        .authenticationEntryPoint((request, response, authException) -> response.setStatus(401)))
+                        .authenticationEntryPoint(authenticationEntryPoint))
                 .oauth2Login(Customizer.withDefaults())
                 .oauth2Client(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

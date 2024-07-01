@@ -76,47 +76,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 }
             }
         }
-        catch (ExpiredJwtException eje) {
-            log.info("Security exception for user {} - {}", eje.getClaims().getSubject(), eje.getMessage());
-            log.trace("Security exception trace: {}", (Object) eje.getStackTrace());
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
-            ErrorResponse errorResponse = new ErrorResponse();
-            errorResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-            errorResponse.setMessage(eje.getMessage());
-
-            new ObjectMapper().writeValue(response.getOutputStream(),
-                    errorResponse);
-        } catch (MalformedJwtException mje) {
-            log.info("Security exception: {}", mje.getMessage());
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
-            ErrorResponse errorResponse = new ErrorResponse();
-            errorResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-            errorResponse.setMessage(mje.getMessage());
-
-            new ObjectMapper().writeValue(response.getOutputStream(),
-                    errorResponse);
-        } catch (BadRequestException bre) {
-            log.info("Security exception: {}", bre.getMessage());
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-
-            ErrorResponse errorResponse = new ErrorResponse();
-            errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
-            errorResponse.setMessage(bre.getMessage());
-
-            new ObjectMapper().writeValue(response.getOutputStream(),
-                    errorResponse);
-        } catch (Exception e) {
-            log.error("Security exception: {}", e.getMessage());
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-
-            ErrorResponse errorResponse = new ErrorResponse();
-            errorResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            errorResponse.setMessage(e.getMessage());
-
-            new ObjectMapper().writeValue(response.getOutputStream(),
-                    errorResponse);
+        catch (RuntimeException e) {
+            log.error("Error: " + e.getMessage());
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
         }
     }
 }

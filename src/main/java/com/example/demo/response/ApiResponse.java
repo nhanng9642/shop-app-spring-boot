@@ -8,5 +8,6 @@ import lombok.Data;
 public class ApiResponse {
     private boolean success;
     private String message;
+    private Pagination pagination;
     private Object data;
 }

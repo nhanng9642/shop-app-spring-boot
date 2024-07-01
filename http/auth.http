@@ -1,11 +1,15 @@
+@userToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGduMiIsImlhdCI6MTcxOTgzMjE1MSwiZXhwIjoxNzIwNDM2OTUxfQ.fLryaKKIzVtCnilFEB-ctg8-lo8JhHoNGLyVwTiwnsGi2Ew0aa3GqGCLIYtaKsx4N7Znw9sECPyuVYpNC6MXBA
+@adminToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGEiLCJpYXQiOjE3MTk4NDk2MzEsImV4cCI6MTcyMDQ1NDQzMX0.gnabPDzxRigtd5jbcEoFjLNELCiuvNT3ZRPtDooZ2pCtBI9PyDjwdVJD7hgsiYZ3EUDfYaTVre5XCdOmMhmXXQ
+@expiredToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFuIiwiaWF0IjoxNzE5NjU4NDE0LCJleHAiOjE3MTk2NTg0MTR9.FTmgu3OXLSJ43PgBrtSxZ5giRCOepyCO9e4aGLdQ9n1GXwoIvcbPpZpW4unED581f5Yl6lsxLmOjy1PJt3wupw
+
 ### Sign in
 POST http://localhost:8080/api/v1/auth/sign-in
 Content-Type: application/json
 
 {
-  "username": "nhgn2",
+  "username": "nha",
   "password": "123456",
-  "email": "nhann9642@gmail.com",
+  "email": "nhaan9642@gmail.com",
   "firstName": "nhan",
   "lastName": "nguyen"
 }
@@ -21,7 +25,7 @@ Content-Type: application/json
 
 ### Expired token
 GET http://localhost:8080/security
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFuIiwiaWF0IjoxNzE5NjU4NDE0LCJleHAiOjE3MTk2NTg0MTR9.FTmgu3OXLSJ43PgBrtSxZ5giRCOepyCO9e4aGLdQ9n1GXwoIvcbPpZpW4unED581f5Yl6lsxLmOjy1PJt3wupw
+Authorization: Bearer {{expiredToken}}
 
 <> 2024-06-29T180329.401.txt
 
@@ -30,26 +34,30 @@ GET http://localhost:8080/home
 
 ### True token
 GET http://localhost:8080/security
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGduMiIsImlhdCI6MTcxOTczNjIxNiwiZXhwIjoxNzIwMzQxMDE2fQ.dyEf8aPCmKdB859dxE4rIPQsebUaPNssrn6tZe53JvNVxTJQM1gQQKc1-cR-8iBsvZiG1TTWApZQzfFI9Gn8Fw
+Authorization: Bearer {{userToken}}
 
 ### FAKE TOKEN
 GET http://localhost:8080/security
 Authorization: Bearer nhannnguyen.asdbas.cewae
 
-### ADMIN ROLE
+### ADMIN ROLE - allow
 GET http://localhost:8080/api/v1/admin/secret
-Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGduMiIsImlhdCI6MTcxOTczNjIxNiwiZXhwIjoxNzIwMzQxMDE2fQ.dyEf8aPCmKdB859dxE4rIPQsebUaPNssrn6tZe53JvNVxTJQM1gQQKc1-cR-8iBsvZiG1TTWApZQzfFI9Gn8Fw
+Authorization: Bearer {{adminToken}}
+
+### ADMIN ROLE - not allow
+GET http://localhost:8080/api/v1/admin/secret
+Authorization: Bearer {{userToken}}
 
 ### Not found endpoint - admin role
 GET http://localhost:8080/not-found
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGduMiIsImlhdCI6MTcxOTczNjIxNiwiZXhwIjoxNzIwMzQxMDE2fQ.dyEf8aPCmKdB859dxE4rIPQsebUaPNssrn6tZe53JvNVxTJQM1gQQKc1-cR-8iBsvZiG1TTWApZQzfFI9Gn8Fw
+Authorization: Bearer {{adminToken}}
 
 ### No endpoint - white url
 GET http://localhost:8080/api/v1/auth/not-found
 
 ### Change password
 POST http://localhost:8080/api/v1/user/change-password
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFuIiwiaWF0IjoxNzE5NjY2NTA2LCJleHAiOjE3MjAyNzEzMDZ9.CgKGzEp9XLVEqk2iM_8cpPSDrLa0nDvyObhWWOsVgsLRTi1hRXT18-XwN3-JQmE9yjU6cJroBrmTwiroOSfl8A
+Authorization: Bearer {{userToken}}
 Content-Type: application/json
 
 {
@@ -58,14 +66,10 @@ Content-Type: application/json
   "confirmationPassword": "1234567"
 }
 
-### Forbidden
-GET http://localhost:8080/api/v1/admin/secret
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFubmd1eWVuIiwiaWF0IjoxNzE5NjcwNzI5LCJleHAiOjE3MjAyNzU1Mjl9.bAZgV7rmuErmkEWmal3HtCh5nhPpsLJv41qnBjHIlI096a7mbXVXcNA192aA1hgV7Ko_wCpNnJ_DaJIS76hVAw
-
 ### Log out
 GET http://localhost:8080/api/v1/auth/logout
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFubmd1eWVuIiwiaWF0IjoxNzE5NjcwNzI5LCJleHAiOjE3MjAyNzU1Mjl9.bAZgV7rmuErmkEWmal3HtCh5nhPpsLJv41qnBjHIlI096a7mbXVXcNA192aA1hgV7Ko_wCpNnJ_DaJIS76hVAw
 
 ###Refresh token
 POST http://localhost:8080/api/v1/auth/refresh-token
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFubmd1eWVuIiwiaWF0IjoxNzE5NjcwNzI5LCJleHAiOjE3MjAyNzU1Mjl9.bAZgV7rmuErmkEWmal3HtCh5nhPpsLJv41qnBjHIlI096a7mbXVXcNA192aA1hgV7Ko_wCpNnJ_DaJIS76hVAw
+Authorization: Bearer {{userToken}}

@@ -1,0 +1,120 @@
+@userToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGduMiIsImlhdCI6MTcxOTgzMjE1MSwiZXhwIjoxNzIwNDM2OTUxfQ.fLryaKKIzVtCnilFEB-ctg8-lo8JhHoNGLyVwTiwnsGi2Ew0aa3GqGCLIYtaKsx4N7Znw9sECPyuVYpNC6MXBA
+@adminToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGEiLCJpYXQiOjE3MTk4NDk2MzEsImV4cCI6MTcyMDQ1NDQzMX0.gnabPDzxRigtd5jbcEoFjLNELCiuvNT3ZRPtDooZ2pCtBI9PyDjwdVJD7hgsiYZ3EUDfYaTVre5XCdOmMhmXXQ
+
+###Get all books - default page 0 and size 10
+GET http://localhost:8080/api/v1/book
+Authorization: Bearer {{userToken}}
+
+###Get all books - page 1 and size 5
+GET http://localhost:8080/api/v1/book?page=1&size=5
+Authorization: Bearer {{userToken}}
+
+###Get all books - page = 100 (no data)
+GET http://localhost:8080/api/v1/book?page=100
+Authorization: Bearer {{userToken}}
+
+###Get all books - page = -1 (no data)
+GET http://localhost:8080/api/v1/book?page=-1
+Authorization: Bearer {{userToken}}
+
+###Get a book by id - 3
+GET http://localhost:8080/api/v1/book/3
+Authorization: Bearer {{userToken}}
+
+###Get a book by id - 100 (no data)
+GET http://localhost:8080/api/v1/book/100
+Authorization: Bearer {{userToken}}
+
+###Get a book by id - -1
+GET http://localhost:8080/api/v1/book/-1
+Authorization: Bearer {{userToken}}
+
+###Get a book by id - 1.5
+GET http://localhost:8080/api/v1/book/1.5
+Authorization: Bearer {{userToken}}
+
+###Get a book by category id - 2
+GET http://localhost:8080/api/v1/book/category/2
+Authorization: Bearer {{userToken}}
+
+### Create a new book
+POST http://localhost:8080/api/v1/book
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "title": "Book NEW",
+    "author": "Author NEW",
+    "price": 100.0,
+    "published_year": "2021",
+    "publisher": "Publisher NEW",
+    "category": {
+        "id": 1
+    }
+}
+
+### Create a new book - invalid category id
+POST http://localhost:8080/api/v1/book
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "title": "Book NEW",
+    "author": "Author NEW",
+    "price": 100.0,
+    "published_year": "2021",
+    "publisher": "Publisher NEW",
+    "category": {
+        "id": 100
+    }
+}
+
+### Create a new book - forbidden
+POST http://localhost:8080/api/v1/book
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+    "title": "Book NEW",
+    "author": "Author NEW",
+    "price": 100.0,
+    "published_year": "2021",
+    "publisher": "Publisher NEW",
+    "category": {
+        "id": 1
+    }
+}
+
+### Update a book by id - 1
+PUT http://localhost:8080/api/v1/book/1
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "id": 1,
+    "title": "Book UPDATED",
+    "author": "Author UPDATED",
+    "price": 100.0,
+    "published_year": "2021",
+    "publisher": "Publisher UPDATED",
+    "category": {
+        "id": 1
+    }
+}
+
+### Update a book by id - 100 (no data)
+PUT http://localhost:8080/api/v1/book/100
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "id": 100,
+    "title": "Book UPDATED",
+    "author": "Author UPDATED",
+    "price": 100.0,
+    "published_year": "2021",
+    "publisher": "Publisher UPDATED",
+    "category": {
+        "id": 1
+    }
+}
