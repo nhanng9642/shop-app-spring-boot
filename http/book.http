@@ -37,22 +37,6 @@ Authorization: Bearer {{userToken}}
 GET http://localhost:8080/api/v1/book/category/2
 Authorization: Bearer {{userToken}}
 
-### Create a new book
-POST http://localhost:8080/api/v1/book
-Authorization: Bearer {{adminToken}}
-Content-Type: application/json
-
-{
-    "title": "Book NEW",
-    "author": "Author NEW",
-    "price": 100.0,
-    "published_year": "2021",
-    "publisher": "Publisher NEW",
-    "category": {
-        "id": 1
-    }
-}
-
 ### Create a new book - invalid category id
 POST http://localhost:8080/api/v1/book
 Authorization: Bearer {{adminToken}}
@@ -68,6 +52,34 @@ Content-Type: application/json
         "id": 100
     }
 }
+
+### Create a new book
+POST http://localhost:8080/api/v1/book
+Authorization: Bearer {{adminToken}}
+Content-Type: multipart/form-data
+
+--boundary
+Content-Disposition: form-data; name="book"
+Content-Type: application/json
+
+{
+    "title": "Book NEW",
+    "author": "Author NEW",
+    "price": 100.0,
+    "published_year": "2021",
+    "publisher": "Publisher NEW",
+    "category": {
+        "id": 1
+    }
+}
+
+--boundary
+Content-Disposition: form-data; name="bookImage"; filename="avatar1.jpg"
+Content-Type: image/jpeg
+
+< /home/nhan/Downloads/21120514_055/source/public/game_avatar/avatar1.jpg
+
+--boundary--
 
 ### Create a new book - forbidden
 POST http://localhost:8080/api/v1/book
@@ -91,16 +103,36 @@ Authorization: Bearer {{adminToken}}
 Content-Type: application/json
 
 {
-    "id": 1,
-    "title": "Book UPDATED",
-    "author": "Author UPDATED",
+  "title": "Book NEW",
+  "author": "Author NEW",
+  "price": 100.0,
+  "published_year": "2021",
+  "publisher": "Publisher NEW",
+  "category": {
+    "id": 1
+  }
+}
+
+### Create a new book - invalid category id
+POST http://localhost:8080/api/v1/book
+Authorization: Bearer {{adminToken}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data, name = "book"
+Content-Type: application/json
+
+{
+    "title": "Book NEW UPDATED",
+    "author": "Author NEW UPDATED",
     "price": 100.0,
     "published_year": "2021",
-    "publisher": "Publisher UPDATED",
+    "publisher": "Publisher NEW",
     "category": {
         "id": 1
     }
 }
+--boundary
 
 ### Update a book by id - 100 (no data)
 PUT http://localhost:8080/api/v1/book/100

@@ -35,5 +35,7 @@ application:
     name: dn1mgczd2
     key: 962629145961984
     secret: 6HthwnRDSauy3eEA8XECMcZCYwQ
+  default:
+    image: "ddd"
 
 

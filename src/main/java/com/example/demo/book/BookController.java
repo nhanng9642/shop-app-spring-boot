@@ -43,19 +43,17 @@ public class BookController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("")
     public ResponseEntity<ApiResponse> addBook(
-            @RequestBody Book book,
-            @RequestParam(required = false) MultipartFile file
+            @ModelAttribute BookDTO bookDTO
             ) {
-        return ResponseEntity.ok(bookService.createBook(book, file));
+        return ResponseEntity.ok(bookService.createBook(bookDTO));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse> updateBook(
             @PathVariable Integer id,
-            @RequestBody Book book,
-            @RequestParam(required = false) MultipartFile file
+            @ModelAttribute BookDTO bookDTO
     ) {
-        return ResponseEntity.ok(bookService.updateBook(id, book, file));
+        return ResponseEntity.ok(bookService.updateBook(id, bookDTO));
     }
 }
