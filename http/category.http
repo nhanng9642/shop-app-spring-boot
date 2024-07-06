@@ -1,0 +1,65 @@
+@userToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGduMiIsImlhdCI6MTcxOTgzMjE1MSwiZXhwIjoxNzIwNDM2OTUxfQ.fLryaKKIzVtCnilFEB-ctg8-lo8JhHoNGLyVwTiwnsGi2Ew0aa3GqGCLIYtaKsx4N7Znw9sECPyuVYpNC6MXBA
+@adminToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGEiLCJpYXQiOjE3MTk4NDk2MzEsImV4cCI6MTcyMDQ1NDQzMX0.gnabPDzxRigtd5jbcEoFjLNELCiuvNT3ZRPtDooZ2pCtBI9PyDjwdVJD7hgsiYZ3EUDfYaTVre5XCdOmMhmXXQ
+
+###Get all categories - default page 0 and size 10
+GET http://localhost:8080/api/v1/category
+Authorization: Bearer {{userToken}}
+
+###Get all categories - page 1 and size 5
+GET http://localhost:8080/api/v1/category?page=1&size=5
+Authorization: Bearer {{userToken}}
+
+###Get all categories - page = 100 (no data)
+GET http://localhost:8080/api/v1/category?page=100
+Authorization: Bearer {{userToken}}
+
+###Get all books - page = -1 (no data)
+GET http://localhost:8080/api/v1/category?page=-1
+Authorization: Bearer {{userToken}}
+
+###Get a category by id - 3
+GET http://localhost:8080/api/v1/category/3
+Authorization: Bearer {{userToken}}
+
+###Get a category by id - 100 (no data)
+GET http://localhost:8080/api/v1/category/100
+Authorization: Bearer {{userToken}}
+
+###Get a category by id - -1
+GET http://localhost:8080/api/v1/category/-1
+Authorization: Bearer {{userToken}}
+
+###Get a category by id - 1.5
+GET http://localhost:8080/api/v1/category/1.5
+Authorization: Bearer {{userToken}}
+
+### Create a new category
+POST http://localhost:8080/api/v1/category
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "categoryName": "NEW CATEGORY",
+  "description": "NEW DESCRIPTION"
+}
+
+### Update a catepory by id - 10
+PUT http://localhost:8080/api/v1/category/10
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "categoryName": "CATEGORY UPDATED",
+  "description": "DESCRIPTION UPDATED"
+}
+
+### Update a catepory by id - 100 (no data)
+PUT http://localhost:8080/api/v1/category/100
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "categoryName": "CATEGORY UPDATED (NODATA)",
+  "description": "DESCRIPTION UPDATED (NODATA)"
+}
+

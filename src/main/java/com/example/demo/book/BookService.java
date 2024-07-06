@@ -77,21 +77,25 @@ public class BookService {
     public ApiResponse updateBook(Integer id, BookDTO bookDTO) {
 
         Book book = convertToBook(bookDTO);
-
-        Book updatedBook = bookRepository.findById(id)
-                .map(b -> {
-                    b.setTitle(book.getTitle());
-                    b.setAuthor(book.getAuthor());
-                    b.setPrice(book.getPrice());
-                    b.setCategory(book.getCategory());
-                    return bookRepository.save(b);
-                })
-                .orElseThrow(() -> new BadRequestException("Book not found!"));
+        checkExistedBook(id);
+        book.setId(id);
+        Book updatedBook = bookRepository.save(book);
 
         return ApiResponse.builder()
                 .success(true)
                 .data(updatedBook)
                 .message("Update book success!")
+                .build();
+    }
+
+    public ApiResponse deleteBook(Integer id) {
+        checkExistedBook(id);
+        bookRepository.deleteById(id);
+
+        return ApiResponse.builder()
+                .success(true)
+                .data(null)
+                .message("Delete book success!")
                 .build();
     }
 
@@ -121,5 +125,10 @@ public class BookService {
     private void checkExistedCategory(Integer categoryId) {
         if (categoryRepository.findById(categoryId).isEmpty())
             throw new BadRequestException("Category is not found!");
+    }
+
+    private void checkExistedBook(Integer id) {
+        if (bookRepository.findById(id).isEmpty())
+            throw new BadRequestException("Book not found");
     }
 }
