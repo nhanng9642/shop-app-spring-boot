@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1/book")
@@ -42,17 +43,19 @@ public class BookController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("")
     public ResponseEntity<ApiResponse> addBook(
-            @RequestBody Book book
-    ) {
-        return ResponseEntity.ok(bookService.createBook(book));
+            @RequestBody Book book,
+            @RequestParam(required = false) MultipartFile file
+            ) {
+        return ResponseEntity.ok(bookService.createBook(book, file));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse> updateBook(
             @PathVariable Integer id,
-            @RequestBody Book book
+            @RequestBody Book book,
+            @RequestParam(required = false) MultipartFile file
     ) {
-        return ResponseEntity.ok(bookService.updateBook(id, book));
+        return ResponseEntity.ok(bookService.updateBook(id, book, file));
     }
 }

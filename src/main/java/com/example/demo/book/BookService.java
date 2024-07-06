@@ -1,19 +1,21 @@
 package com.example.demo.book;
 
-import com.example.demo.category.Category;
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.response.ApiResponse;
+import com.example.demo.utils.CloudinaryService;
 import com.example.demo.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
 public class BookService {
     private final BookRepository bookRepository;
     private final Utils utils;
+    private final CloudinaryService cloudinaryService;
 
     public ApiResponse getAllBooks(Integer page, Integer size, String sort) {
         PageRequest pageRequest = utils.createPageRequest(page, size, sort);
@@ -53,7 +55,9 @@ public class BookService {
 
     }
 
-    public ApiResponse createBook(Book book) {
+    public ApiResponse createBook(Book book, MultipartFile file) {
+        if (file != null)
+            book.setBookImage(cloudinaryService.uploadFile(file));
         Book newBook = bookRepository.save(book);
 
         return ApiResponse.builder()
@@ -63,7 +67,10 @@ public class BookService {
                 .build();
     }
 
-    public ApiResponse updateBook(Integer id, Book book) {
+    public ApiResponse updateBook(Integer id, Book book, MultipartFile file) {
+        if (file != null)
+            book.setBookImage(cloudinaryService.uploadFile(file));
+
         Book updatedBook = bookRepository.findById(id)
                 .map(b -> {
                     b.setTitle(book.getTitle());

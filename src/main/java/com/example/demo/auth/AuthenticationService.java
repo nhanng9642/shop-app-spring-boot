@@ -32,7 +32,6 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-
     private final AuthenticationManager authManager;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
