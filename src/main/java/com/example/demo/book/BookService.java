@@ -75,7 +75,6 @@ public class BookService {
     }
 
     public ApiResponse updateBook(Integer id, BookDTO bookDTO) {
-
         Book book = convertToBook(bookDTO);
         checkExistedBook(id);
         book.setId(id);

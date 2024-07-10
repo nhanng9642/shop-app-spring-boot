@@ -1,4 +1,4 @@
-@userToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGduMiIsImlhdCI6MTcxOTgzMjE1MSwiZXhwIjoxNzIwNDM2OTUxfQ.fLryaKKIzVtCnilFEB-ctg8-lo8JhHoNGLyVwTiwnsGi2Ew0aa3GqGCLIYtaKsx4N7Znw9sECPyuVYpNC6MXBA
+@userToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGEiLCJpYXQiOjE3MjA1MDU5MTksImV4cCI6MTcyMTExMDcxOX0.keynfW-Gz3qsGjwcgnIFJ07ShcA5Y8y31d9BjybHJAU_ZjWg9a4cmIL3x_eEn6F-q5-Y8P1ax7KveoQRi_vD3Q
 @adminToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGEiLCJpYXQiOjE3MTk4NDk2MzEsImV4cCI6MTcyMDQ1NDQzMX0.gnabPDzxRigtd5jbcEoFjLNELCiuvNT3ZRPtDooZ2pCtBI9PyDjwdVJD7hgsiYZ3EUDfYaTVre5XCdOmMhmXXQ
 @expiredToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFuIiwiaWF0IjoxNzE5NjU4NDE0LCJleHAiOjE3MTk2NTg0MTR9.FTmgu3OXLSJ43PgBrtSxZ5giRCOepyCO9e4aGLdQ9n1GXwoIvcbPpZpW4unED581f5Yl6lsxLmOjy1PJt3wupw
 
@@ -14,12 +14,21 @@ Content-Type: application/json
   "lastName": "nguyen"
 }
 
-### Login
+### Login - admin
 POST http://localhost:8080/api/v1/auth/login
 Content-Type: application/json
 
 {
-  "username": "haha@gmail.com",
+  "username": "nha2",
+  "password": "123456"
+}
+
+### Login - user
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "nha",
   "password": "123456"
 }
 
@@ -73,3 +82,5 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFubmd1eWVuIiwiaWF0IjoxN
 ###Refresh token
 POST http://localhost:8080/api/v1/auth/refresh-token
 Authorization: Bearer {{userToken}}
+
+

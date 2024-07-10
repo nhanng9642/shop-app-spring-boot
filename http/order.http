@@ -1,0 +1,52 @@
+@adminToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGEiLCJpYXQiOjE3MjA1MDU5MTksImV4cCI6MTcyMTExMDcxOX0.keynfW-Gz3qsGjwcgnIFJ07ShcA5Y8y31d9BjybHJAU_ZjWg9a4cmIL3x_eEn6F-q5-Y8P1ax7KveoQRi_vD3Q
+@userToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGE0IiwiaWF0IjoxNzIwMzIwODAxLCJleHAiOjE3MjA5MjU2MDF9.sdlyIBcGncfOLfng1pQ8nxbD9RvGsffJAvQoyt3UfHfLGa8kyX8SAaiKeUlswGR_cEazIOcOClf2TEnV__VsJA
+
+###Get all order - forbidden
+GET http://localhost:8080/api/v1/order
+Authorization: Bearer {{userToken}}
+
+###Get all order
+GET http://localhost:8080/api/v1/order
+Authorization: Bearer {{adminToken}}
+
+###Get all order by user
+GET http://localhost:8080/api/v1/order/me
+Authorization: Bearer {{userToken}}
+
+###Get 1 order by id
+GET http://localhost:8080/api/v1/order/2
+Authorization: Bearer {{adminToken}}
+
+###Create a cart
+POST http://localhost:8080/api/v1/order/me/cart
+Authorization: Bearer {{userToken}}
+Content-Type: application/json
+
+{
+  "shippingAddress": "1234 Main St",
+  "orderDetails": [
+    {
+      "book": {
+        "id": 1
+      },
+      "quantity": 22,
+      "price": 100
+    },
+    {
+      "book": {
+        "id": 2
+      },
+      "quantity": 1,
+      "price": 25.9
+    }
+  ]
+}
+
+###Update order by status
+PUT http://localhost:8080/api/v1/order/2/status
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "status": "SHIPPED"
+}

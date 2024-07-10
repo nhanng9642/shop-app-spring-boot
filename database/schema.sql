@@ -48,19 +48,10 @@ CREATE TABLE book (
        FOREIGN KEY (category_id) REFERENCES category(id)
 );
 
-CREATE TABLE customer (
-       id          serial PRIMARY KEY,
-       name                 NVARCHAR(100),
-       email                VARCHAR(100),
-       address              NVARCHAR(255),
-       phone                VARCHAR(20),
-       inserted_at timestamp default now() not null,
-       updated_at  timestamp default now() not null
-);
-
+drop table sale_order;
 CREATE TABLE sale_order (
         id                  serial,
-        customer_id         BIGINT UNSIGNED not null,
+        user_id         BIGINT UNSIGNED not null,
         order_date          DATE,
         total               float,
         shipping_address    VARCHAR(255),
@@ -68,18 +59,20 @@ CREATE TABLE sale_order (
         inserted_at timestamp default now() not null,
         updated_at  timestamp default now() not null,
         primary key pk_sale_order (id),
-        FOREIGN KEY (customer_id) REFERENCES customer(id)
+        FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
+drop table order_detail;
 CREATE TABLE order_detail (
-          id                BIGINT UNSIGNED not null,
+          id                serial,
+          order_id          BIGINT UNSIGNED not null,
           book_id           BIGINT UNSIGNED not null,
           quantity          INT,
           price             float,
           total             float,
           inserted_at timestamp default now() not null,
           updated_at  timestamp default now() not null,
-          PRIMARY KEY (id, book_id),
-          FOREIGN KEY (id) REFERENCES sale_order(id),
-          FOREIGN KEY (id) REFERENCES book(id)
+          PRIMARY KEY (id),
+          FOREIGN KEY (order_id) REFERENCES sale_order(id),
+          FOREIGN KEY (book_id) REFERENCES book(id)
 );

@@ -120,66 +120,34 @@ VALUES
     ('Hell House', 3, 'Richard Matheson', 'Viking Press', '1971', 18.99, 65, 'A haunted house novel where a physicist investigates supernatural occurrences.', 'hell_house.jpg'),
     ('The Call of Cthulhu and Other Weird Stories', 3, 'H.P. Lovecraft', 'Arkham House', '1928', 17.50, 60, 'A collection of Lovecraftian horror stories featuring cosmic entities and ancient horrors.', 'call_of_cthulhu.jpg');
 
-INSERT INTO customer (name, email, address, phone)
-VALUES
-    (N'Nguyễn Văn Nam', 'nguyenvannam@email.com',	N'Số 31, Đường Nguyễn Du, Quận 1, Thành phố Hồ Chí Minh', '0987654321'),
-    (N'Trần Thị Hương', 'tranthihuongs@email.com',	N'Số 15, Đường Lê Lợi, Quận Hai Bà Trưng, Thành phố Hà Nội', '0903123456'),
-    (N'Lê Thị Mai', 'lethimai@email.com',			N'Số 9, Đường Hải Phòng, Quận Hải Châu, Thành phố Đà Nẵng', '0978234567'),
-    (N'Phạm Văn Tuấn', 'phamvantuan@email.com',		N'Số 11, Đường Trần Phú, Quận Ninh Kiều, Thành phố Cần Thơ', '0912345678'),
-    (N'Hoàng Minh Anh', 'hoangminhanh@email.com',	N'Số 50, Đường Hồng Bàng, Quận Hải An, Thành phố Hải Phòng', '0965432109'),
-    (N'Trần Thanh Hải', 'tranthanhhai@email.com',	N'Số 32, Đường Bà Rịa - Vũng Tàu, Quận Nguyễn An Ninh, Thành phố Vũng Tàu', '0934567890'),
-    (N'Nguyễn Thị Lan', 'nguyenthilan@email.com',	N'Số 76, Đường Phan Đình Phùng, Quận Biên Hòa, Thành phố Biên Hòa', '0956789012'),
-    (N'Lê Văn Thành', 'levanthanh@email.com',		N'Số 80, Đường Trần Hưng Đạo, Quận Lê Lợi, Thành phố Qui Nhơn', '0912345678'),
-    (N'Trần Thị Thu', 'tranthithu@email.com',		N'Số 51, Đường Nguyễn Thị Minh Khai, Quận Lộc Thọ, Thành phố Nha Trang', '0945678901'),
-    (N'Hoàng Văn Long', 'hoangvanlong@email.com',	N'Số 254, Đường Lê Lai, Quận Mỹ Thới, Thành phố Long Xuyên', '0987654321');
+INSERT INTO sale_order (user_id, order_date, total, shipping_address, status) VALUES
+                      (1, '2024-07-01', 100.00, '123 Main St', 'Pending'),
+                      (2, '2024-07-02', 150.50, '456 Oak St', 'Shipped'),
+                      (3, '2024-07-03', 200.75, '789 Pine St', 'Delivered'),
+                      (4, '2024-07-04', 250.25, '321 Maple St', 'Cancelled'),
+                      (5, '2024-07-05', 300.00, '654 Cedar St', 'Processing');
 
-INSERT INTO customer (name, email, address, phone)
-VALUES
-    (N'Nguyễn Thị Hằng', 'nguyenthihang@email.com',		N'Số 110, Đường Võ Thị Sáu, Quận Thanh Khê, Thành phố Đà Nẵng', '0901234567'),
-    (N'Trần Văn Đông', 'tranvandong@email.com',			N'Số 324, Đường Lê Hồng Phong, Quận Ninh Kiều, Thành phố Cần Thơ', '0976543210'),
-    (N'Lê Thị Ngọc', 'lethingoc@email.com',				N'Số 131, Đường Trần Quang Khải, Quận Hải Châu, Thành phố Đà Nẵng', '0918765432'),
-    (N'Phạm Văn Hùng', 'phamvanhung@email.com',			N'Số 928, Đường Hai Bà Trưng, Quận Hoàn Kiếm, Thành phố Hà Nội', '0987654321'),
-    (N'Hoàng Thị Hồng', 'hoangthihong@email.com', N'Số 112, Đường Nguyễn Văn Linh, Quận Hải Châu, Thành phố Đà Nẵng', '0965432109'),
-    (N'Trần Văn Minh', 'tranvanminh@email.com', N'Số 125, Đường Lê Duẩn, Quận Hải Châu, Thành phố Đà Nẵng', '0943210987'),
-    (N'Nguyễn Thị Lệ', 'nguyenthile@email.com', N'Số 26, Đường Nguyễn Tri Phương, Quận Thanh Khê, Thành phố Đà Nẵng', '0921098765'),
-    (N'Lê Văn Hoàng', 'levanhoang@email.com', N'Số 190, Đường Nguyễn Hữu Thọ, Quận Liên Chiểu, Thành phố Đà Nẵng', '0912345678'),
-    (N'Trần Thị Quỳnh', 'tranthiquynh@email.com', N'Số 198, Đường Nguyễn Văn Linh, Quận Sơn Trà, Thành phố Đà Nẵng', '0987654321'),
-    (N'Hoàng Văn Tiến', 'hoangvantien@email.com', N'Số 201, Đường Hà Huy Tập, Quận Thanh Khê, Thành phố Đà Nẵng', '0976543210'),
-    (N'Nguyễn Thị Thảo', 'nguyenthithao@email.com', N'Số 214, Đường Lý Tự Trọng, Quận Hải Châu, Thành phố Đà Nẵng', '0901234567'),
-    (N'Lê Văn Trung', 'levantrung@email.com', N'Số 421, Đường Trần Phú, Quận Hải Châu, Thành phố Đà Nẵng', '0976543210'),
-    (N'Trần Thị Hà', 'tranthiha@email.com', N'Số 232, Đường Hùng Vương, Quận Thanh Khê, Thành phố Đà Nẵng', '0943210987'),
-    (N'Phạm Văn Quân', 'phamvanquan@email.com', N'Số 241, Đường Nguyễn Chí Thanh, Quận Hải Châu, Thành phố Đà Nẵng', '0921098765'),
-    (N'Nguyễn Thị Mỹ', 'nguyenthimy@email.com', N'Số 255, Đường Nguyễn Tri Phương, Quận Thanh Khê, Thành phố Đà Nẵng', '0912345678'),
-    (N'Lê Văn Dũng', 'levandung@email.com', N'Số 262, Đường Lê Lai, Quận Hải Châu, Thành phố Đà Nẵng', '0987654321'),
-    (N'Trần Thị Ngọc', 'tranthingoc@email.com', N'Số 127, Đường Lê Đình Dương, Quận Thanh Khê, Thành phố Đà Nẵng', '0976543210'),
-    (N'Hoàng Văn Đức', 'hoangvanduc@email.com', N'Số 282, Đường Phạm Văn Đồng, Quận Hải Châu, Thành phố Đà Nẵng', '0901234567'),
-    (N'Nguyễn Thị Thanh', 'nguyenthithanh@email.com', N'Số 329, Đường Nguyễn Tất Thành, Quận Hải Châu, Thành phố Đà Nẵng', '0943210987'),
-    (N'Lê Văn Tuấn', 'levantuan@email.com', N'Số 302, Đường Trần Quốc Toản, Quận Hải Châu, Thành phố Đà Nẵng', '0921098765');
+INSERT INTO order_detail (order_id, book_id, quantity, price, total) VALUES
+                               (1, 1, 2, 20.00, 40.00),
+                               (1, 2, 1, 60.00, 60.00),
+                               (2, 1, 3, 20.00, 60.00),
+                               (2, 3, 2, 45.25, 90.50),
+                               (3, 4, 1, 200.75, 200.75),
+                               (3, 5, 2, 30.00, 60.00),
+                               (4, 1, 1, 20.00, 20.00),
+                               (4, 6, 4, 50.00, 200.00),
+                               (5, 2, 3, 60.00, 180.00),
+                               (5, 3, 1, 45.25, 45.25),
+                               (5, 7, 5, 25.00, 125.00),
+                               (2, 4, 1, 200.75, 200.75),
+                               (3, 1, 1, 20.00, 20.00),
+                               (4, 2, 2, 60.00, 120.00),
+                               (1, 5, 3, 30.00, 90.00),
+                               (2, 6, 1, 50.00, 50.00),
+                               (3, 7, 2, 25.00, 50.00),
+                               (4, 8, 4, 40.00, 160.00),
+                               (5, 9, 1, 80.00, 80.00),
+                               (5, 2, 2, 35.00, 70.00);
 
-INSERT INTO customer (name, email, address, phone)
-VALUES
-    (N'Nguyễn Văn Hoàng', 'nguyenvanhoang@email.com',		N'Số 92, Đường Lê Lợi, Quận Hai Bà Trưng, Thành phố Hà Nội', '0987654321'),
-    (N'Trần Thị Lan Anh', 'tranthilanh@email.com',			N'Số 32, Đường Nguyễn Thị Minh Khai, Quận 1, Thành phố Hồ Chí Minh', '0903123456'),
-    (N'Lê Văn Đức', 'levanduc@email.com',					N'Số 333, Đường Võ Văn Tần, Quận 3, Thành phố Hồ Chí Minh', '0978234567'),
-    (N'Phạm Thị Thúy', 'phamthithuy@email.com',				N'Số 198, Đường Trần Hưng Đạo, Quận Hoàn Kiếm, Thành phố Hà Nội', '0912345678'),
-    (N'Hoàng Văn Trọng', 'hoangvantrong@email.com',			N'Số 207, Đường Lý Thường Kiệt, Quận Hải Châu, Thành phố Đà Nẵng', '0965432109'),
-    (N'Trần Thị Phương', 'tranthiphuong@email.com',			N'Số 119, Đường Nguyễn Văn Linh, Quận Thanh Khê, Thành phố Đà Nẵng', '0934567890'),
-    (N'Nguyễn Văn Bình', 'nguyenvanbinh@email.com',			N'Số 203, Đường Nguyễn Hữu Thọ, Quận Sơn Trà, Thành phố Đà Nẵng', '0956789012'),
-    (N'Lê Thị Thu Hà', 'lethithuha@email.com',				N'Số 97, Đường Hải Phòng, Quận Liên Chiểu, Thành phố Đà Nẵng', '0912345678'),
-    (N'Trần Văn Tuấn Anh', 'tranvantuananh@email.com',		N'Số 332, Đường Nguyễn Tri Phương, Quận Hải Châu, Thành phố Đà Nẵng', '0945678901'),
-    (N'Hoàng Thị Thùy Dung', 'hoangthithuydung@email.com',	N'Số 32, Đường Trần Phú, Quận Hải Châu, Thành phố Đà Nẵng', '0987654321');
-
-INSERT INTO customer (name, email, address, phone)
-VALUES
-    (N'Nguyễn Thị Kim Anh', 'nguyenthikimanh@email.com',	N'Số 456, Đường Nguyễn Văn Linh, Quận 1, Thành phố Hồ Chí Minh', '0901234567'),
-    (N'Trần Văn Đạt', 'tranvandat@email.com',				N'Số 789, Đường Lê Lợi, Quận Hai Bà Trưng, Thành phố Hà Nội', '0976543210'),
-    (N'Lê Thị Thanh Hương', 'lethithanhhuong@email.com',	N'Số 234, Đường Bạch Đằng, Quận Hải Châu, Thành phố Đà Nẵng', '0918765432'),
-    (N'Phạm Văn Hải', 'phamvanhai@email.com',				N'Số 567, Đường Trần Phú, Quận Cẩm Lệ, Thành phố Đà Nẵng', '0987654321'),
-    (N'Hoàng Thị Thảo Vy', 'hoangthithaovy@email.com',		N'Số 890, Đường Hùng Vương, Quận Thanh Khê, Thành phố Đà Nẵng', '0965432109'),
-    (N'Trần Văn Minh Đức', 'tranvanminhduc@email.com',		N'Số 123, Đường Đống Đa, Quận Thanh Khê, Thành phố Đà Nẵng', '0943210987'),
-    (N'Nguyễn Thùy Trang', 'nguyenthuytrang@email.com',		N'Số 456, Đường Nguyễn Văn Linh, Quận Hải Châu, Thành phố Đà Nẵng', '0921098765'),
-    (N'Lê Văn Khánh', 'levankhanh@email.com',				N'Số 789, Đường 2/9, Quận Hải Châu, Thành phố Đà Nẵng', '0912345678'),
-    (N'Trần Thị Quỳnh Nga', 'tranthiquynhnga@email.com',	N'Số 234, Đường Trần Phú, Quận Thanh Khê, Thành phố Đà Nẵng', '0987654321'),
-    (N'Hoàng Văn Tiến Dũng', 'hoangvantiendoong@email.com', N'Số 567, Đường Lê Lợi, Quận Liên Chiểu, Thành phố Đà Nẵng', '0976543210');
-
-select * from customer;
+select * from sale_order;
+select  * from book;
