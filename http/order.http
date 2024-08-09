@@ -1,6 +1,3 @@
-@adminToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGEiLCJpYXQiOjE3MjA1MDU5MTksImV4cCI6MTcyMTExMDcxOX0.keynfW-Gz3qsGjwcgnIFJ07ShcA5Y8y31d9BjybHJAU_ZjWg9a4cmIL3x_eEn6F-q5-Y8P1ax7KveoQRi_vD3Q
-@userToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGE0IiwiaWF0IjoxNzIwMzIwODAxLCJleHAiOjE3MjA5MjU2MDF9.sdlyIBcGncfOLfng1pQ8nxbD9RvGsffJAvQoyt3UfHfLGa8kyX8SAaiKeUlswGR_cEazIOcOClf2TEnV__VsJA
-
 ###Get all order - forbidden
 GET http://localhost:8080/api/v1/order
 Authorization: Bearer {{userToken}}

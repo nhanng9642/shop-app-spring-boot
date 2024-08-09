@@ -1,6 +1,3 @@
-@userToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGduMiIsImlhdCI6MTcxOTgzMjE1MSwiZXhwIjoxNzIwNDM2OTUxfQ.fLryaKKIzVtCnilFEB-ctg8-lo8JhHoNGLyVwTiwnsGi2Ew0aa3GqGCLIYtaKsx4N7Znw9sECPyuVYpNC6MXBA
-@adminToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGEiLCJpYXQiOjE3MTk4NDk2MzEsImV4cCI6MTcyMDQ1NDQzMX0.gnabPDzxRigtd5jbcEoFjLNELCiuvNT3ZRPtDooZ2pCtBI9PyDjwdVJD7hgsiYZ3EUDfYaTVre5XCdOmMhmXXQ
-
 ###Get all categories - default page 0 and size 10
 GET http://localhost:8080/api/v1/category
 Authorization: Bearer {{userToken}}

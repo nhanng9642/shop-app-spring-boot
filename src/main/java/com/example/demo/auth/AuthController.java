@@ -1,11 +1,11 @@
 package com.example.demo.auth;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -15,7 +15,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthenticationService authService;
-    private final OauthService oauthService;
 
     @PostMapping("/login")
     ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest request) {
@@ -32,11 +31,9 @@ public class AuthController {
         return ResponseEntity.ok(authService.refreshToken(request));
     }
 
-    @GetMapping("/oauth2/google")
-    public ResponseEntity<?> oauth2LoginSuccess
-            (@RequestParam("code") String code,
-             OAuth2AuthenticationToken token, HttpServletResponse response) throws IOException {
-//        response.sendRedirect("http://localhost:8080/security");
-        return ResponseEntity.ok(oauthService.oauth2Login(code, token));
+    @GetMapping("oauth2/success")
+    ResponseEntity<AuthenticationResponse> oauth2Success
+            (@AuthenticationPrincipal OAuth2User principal) {
+        return ResponseEntity.ok(authService.oauth2Success(principal));
     }
 }

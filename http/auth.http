@@ -1,5 +1,5 @@
-@userToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGEiLCJpYXQiOjE3MjA1MDU5MTksImV4cCI6MTcyMTExMDcxOX0.keynfW-Gz3qsGjwcgnIFJ07ShcA5Y8y31d9BjybHJAU_ZjWg9a4cmIL3x_eEn6F-q5-Y8P1ax7KveoQRi_vD3Q
-@adminToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGEiLCJpYXQiOjE3MTk4NDk2MzEsImV4cCI6MTcyMDQ1NDQzMX0.gnabPDzxRigtd5jbcEoFjLNELCiuvNT3ZRPtDooZ2pCtBI9PyDjwdVJD7hgsiYZ3EUDfYaTVre5XCdOmMhmXXQ
+@userToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGEyIiwiaWF0IjoxNzIzMDg2MjMwLCJleHAiOjE3MjM2OTEwMzB9.Y4i9pnnz3ognrVg7EThk8y-YzC19cH7g0PlcmReWyVVhvAQAqh0fxcRwoi9hUmXV2TP17Sviz43rK1-6sqIMAg
+@adminToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGEyIiwiaWF0IjoxNzIzMDg2MjMwLCJleHAiOjE3MjM2OTEwMzB9.Y4i9pnnz3ognrVg7EThk8y-YzC19cH7g0PlcmReWyVVhvAQAqh0fxcRwoi9hUmXV2TP17Sviz43rK1-6sqIMAg
 @expiredToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFuIiwiaWF0IjoxNzE5NjU4NDE0LCJleHAiOjE3MTk2NTg0MTR9.FTmgu3OXLSJ43PgBrtSxZ5giRCOepyCO9e4aGLdQ9n1GXwoIvcbPpZpW4unED581f5Yl6lsxLmOjy1PJt3wupw
 
 ### Sign in
@@ -20,15 +20,6 @@ Content-Type: application/json
 
 {
   "username": "nha2",
-  "password": "123456"
-}
-
-### Login - user
-POST http://localhost:8080/api/v1/auth/login
-Content-Type: application/json
-
-{
-  "username": "nha",
   "password": "123456"
 }
 
@@ -82,5 +73,14 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFubmd1eWVuIiwiaWF0IjoxN
 ###Refresh token
 POST http://localhost:8080/api/v1/auth/refresh-token
 Authorization: Bearer {{userToken}}
+
+### Login - user
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "nha",
+  "password": "123456"
+}
 
 

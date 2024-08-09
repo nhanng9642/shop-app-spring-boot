@@ -45,12 +45,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
             }
             else {
-                String requestUri = request.getRequestURI();
-                if (requestUri.equals("/oauth2/authorization/google")) {
-                    filterChain.doFilter(request, response);
-                    return;
-                }
-
                 int beginTokenIndex = 7; //length of "Bearer "
                 final String jwt = header.substring(beginTokenIndex);
                 final String username = jwtService.extractUsername(jwt);

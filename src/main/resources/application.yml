@@ -13,17 +13,10 @@ spring:
           google:
             client-id: 183579654844-qlnsl2utm5jje30v9mibvn6u1o36ked8.apps.googleusercontent.com
             client-secret: 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
-            redirect-uri: http://localhost:8080/api/v1/auth/oauth2/google
+            redirect-uri:  http://localhost:8080/login/oauth2/code/google
             scope:
               - email
               - profile
-        provider:
-            google:
-                authorization-uri: https://accounts.google.com/o/oauth2/auth
-                token-uri: https://accounts.google.com/o/oauth2/token
-                user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
-                user-name-attribute: sub
-
 application:
   security:
     jwt:

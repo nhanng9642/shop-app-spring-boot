@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -38,8 +39,6 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
-
-    private final OAuth2AuthorizedClientService authorizedClientService;
     @Value("${application.security.jwt.expiration}")
     private int timeExpiration;
 
@@ -152,5 +151,32 @@ public class AuthenticationService {
         tokenRepository.saveAll(tokens);
     }
 
+    public AuthenticationResponse oauth2Success(OAuth2User principal) {
+        String email = principal.getAttribute("email");
+        String name = principal.getAttribute("name");
 
+        User user = userRepository.findByEmail(email)
+                .orElseGet(() -> {
+                    User newUser = User
+                            .builder()
+                            .email(email)
+                            .username(email)
+                            .firstName(name)
+                            .lastName(name)
+                            .role(Role.ROLE_USER)
+                            .build();
+                    return userRepository.save(newUser);
+                });
+
+        String accessToken = jwtService.generateJwtToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
+
+        saveUserToken(user, refreshToken);
+        return AuthenticationResponse
+                .builder()
+                .refreshToken(refreshToken)
+                .accessToken(accessToken)
+                .timeExpiration(timeExpiration)
+                .build();
+    }
 }
