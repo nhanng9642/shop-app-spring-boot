@@ -46,7 +46,7 @@ public class OrderService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
 
-        order.setUserId(user.getId());
+        order.setUser(user);
         order.setStatus("PENDING");
         order.setTotal(0);
         order.setOrderDate(new Date());

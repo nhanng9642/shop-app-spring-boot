@@ -1,0 +1,18 @@
+### Get all user - admim
+GET http://localhost:8080/api/v1/user/all
+Authorization: Bearer {{adminToken}}
+
+### Get order by user
+GET http://localhost:8080/api/v1/user/me/order
+Authorization: Bearer {{adminToken}}
+
+### Update profile
+PUT http://localhost:8080/api/v1/user/me
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "firstName": "Nham",
+  "lastName": "Nguyen"
+}
+

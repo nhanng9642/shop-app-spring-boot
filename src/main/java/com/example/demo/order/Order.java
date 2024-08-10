@@ -2,6 +2,7 @@ package com.example.demo.order;
 
 import com.example.demo.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
@@ -25,14 +26,11 @@ public class Order {
 
     private String shippingAddress;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
-    @Transient
+    @JsonIgnoreProperties({"password", "email", "role", "orders"})
     public User user;
 
-    @Column(name = "user_id")
-    private Integer userId;
-
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
-    public List<OrderDetail> orderDetails;
+    private List<OrderDetail> orderDetails;
 }
