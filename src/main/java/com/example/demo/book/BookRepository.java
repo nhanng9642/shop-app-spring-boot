@@ -12,7 +12,8 @@ import java.util.Optional;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Integer>, JpaSpecificationExecutor<Book> {
     Page<Book> findBooksByCategoryId(Integer categoryId, Pageable pageable);
-
     Optional<Book> findByBookImage(String img);
+
+    List<Book> findTopByQuantityAvailable(int limit);
 
 }

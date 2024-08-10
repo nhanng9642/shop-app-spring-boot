@@ -1,0 +1,19 @@
+### Get best selling books
+GET http://localhost:8080/api/v1/statistic/best-selling-books
+Authorization: Bearer {{adminToken}}
+
+### Get monthly revenue
+GET http://localhost:8080/api/v1/statistic/monthly-revenue
+Authorization: Bearer {{adminToken}}
+
+### Get total user
+GET http://localhost:8080/api/v1/statistic/total-user
+Authorization: Bearer {{adminToken}}
+
+### Get total book
+GET http://localhost:8080/api/v1/statistic/total-book
+Authorization: Bearer {{adminToken}}
+
+### Get total revenue
+GET http://localhost:8080/api/v1/statistic/total-revenue
+Authorization: Bearer {{adminToken}}
