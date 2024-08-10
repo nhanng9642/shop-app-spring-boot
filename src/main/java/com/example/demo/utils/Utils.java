@@ -1,16 +1,12 @@
 package com.example.demo.utils;
 
-
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.response.Pagination;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class Utils {
@@ -54,6 +50,7 @@ public class Utils {
         return Pagination.builder()
                 .totalRecords((int) page.getTotalElements())
                 .currentPage(page.getNumber())
+                .pageSize(page.getSize())
                 .totalPages(page.getTotalPages())
                 .nextPage(page.hasNext() ? page.getNumber() + 1 : null)
                 .prevPage(page.hasPrevious() ? page.getNumber() - 1 : null)

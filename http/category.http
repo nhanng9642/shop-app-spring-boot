@@ -1,34 +1,34 @@
-###Get all categories - default page 0 and size 10
+###Get all categories - default page 0 and size 15
 GET http://localhost:8080/api/v1/category
-Authorization: Bearer {{userToken}}
+Authorization: Bearer {{adminToken}}
 
 ###Get all categories - page 1 and size 5
 GET http://localhost:8080/api/v1/category?page=1&size=5
-Authorization: Bearer {{userToken}}
+Authorization: Bearer {{adminToken}}
 
 ###Get all categories - page = 100 (no data)
 GET http://localhost:8080/api/v1/category?page=100
-Authorization: Bearer {{userToken}}
+Authorization: Bearer {{adminToken}}
 
-###Get all books - page = -1 (no data)
+###Get all books - page = -1
 GET http://localhost:8080/api/v1/category?page=-1
-Authorization: Bearer {{userToken}}
+Authorization: Bearer {{adminToken}}
 
 ###Get a category by id - 3
 GET http://localhost:8080/api/v1/category/3
-Authorization: Bearer {{userToken}}
+Authorization: Bearer {{adminToken}}
 
 ###Get a category by id - 100 (no data)
 GET http://localhost:8080/api/v1/category/100
-Authorization: Bearer {{userToken}}
+Authorization: Bearer {{adminToken}}
 
 ###Get a category by id - -1
 GET http://localhost:8080/api/v1/category/-1
-Authorization: Bearer {{userToken}}
+Authorization: Bearer {{adminToken}}
 
 ###Get a category by id - 1.5
 GET http://localhost:8080/api/v1/category/1.5
-Authorization: Bearer {{userToken}}
+Authorization: Bearer {{adminToken}}
 
 ### Create a new category
 POST http://localhost:8080/api/v1/category

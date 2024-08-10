@@ -1,7 +1,10 @@
 package com.example.demo.order;
 
 import com.example.demo.response.ApiResponse;
+import com.turkraft.springfilter.boot.Filter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -15,20 +18,9 @@ public class OrderController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping()
     public ResponseEntity<ApiResponse> getAllOrders(
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer size,
-            @RequestParam(required = false) String sort
+            @Filter Specification<Order> specification, Pageable pageable
     ) {
-        return ResponseEntity.ok(orderService.getAllOrder(page, size, sort));
-    }
-
-    @GetMapping("/me")
-    public ResponseEntity<ApiResponse> getAllOrdersByUser(
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer size,
-            @RequestParam(required = false) String sort
-    ) {
-        return ResponseEntity.ok(orderService.getAllByUser(page, size, sort));
+        return ResponseEntity.ok(orderService.getAllOrder(specification, pageable));
     }
 
     @PostMapping("/me/cart")

@@ -17,6 +17,12 @@ spring:
             scope:
               - email
               - profile
+  data:
+    web:
+      pageable:
+        default-page-size: 15
+        max-page-size: 50
+
 application:
   security:
     jwt:

@@ -11,4 +11,5 @@ public class Pagination {
     private Integer totalPages;
     private Integer nextPage;
     private Integer prevPage;
+    private Integer pageSize;
 }

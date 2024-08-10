@@ -6,6 +6,8 @@ import com.example.demo.response.ApiResponse;
 import com.example.demo.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,9 +17,8 @@ public class CategoryService {
     private final Utils utils;
 
     public ApiResponse getAllCategory
-            (Integer page, Integer size, String sort) {
-
-        Page<Category> categories = categoryRepository.findAll(utils.createPageRequest(page, size, sort));
+            (Specification<Category> specification, Pageable pageable) {
+        Page<Category> categories = categoryRepository.findAll(specification, pageable);
 
         return ApiResponse
                 .builder()

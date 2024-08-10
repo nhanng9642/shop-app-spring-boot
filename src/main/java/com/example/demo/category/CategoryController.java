@@ -1,7 +1,10 @@
 package com.example.demo.category;
 
 import com.example.demo.response.ApiResponse;
+import com.turkraft.springfilter.boot.Filter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,10 +16,8 @@ public class CategoryController {
 
     @GetMapping()
     public ResponseEntity<ApiResponse> getAllCategory
-        (@RequestParam(required = false) Integer page,
-         @RequestParam(required = false) Integer size,
-         @RequestParam(required = false) String sort) {
-        return ResponseEntity.ok(categoryService.getAllCategory(page, size, sort));
+        (@Filter Specification<Category> specification, Pageable pageable) {
+        return ResponseEntity.ok(categoryService.getAllCategory(specification, pageable));
     }
 
     @GetMapping("/{id}")

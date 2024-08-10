@@ -1,41 +1,14 @@
-@userToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGEyIiwiaWF0IjoxNzIzMTkyOTgyLCJleHAiOjE3MjM3OTc3ODJ9.9HP3CnI2-54_bURdooLO1txqb0ALef_Z08sR8Aazr1NPy6pzgf_RSvYcp2ssHZVKXbUolKNRvBnEL0LCeajbrA
-@adminToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGEyIiwiaWF0IjoxNzIzMDg2MjMwLCJleHAiOjE3MjM2OTEwMzB9.Y4i9pnnz3ognrVg7EThk8y-YzC19cH7g0PlcmReWyVVhvAQAqh0fxcRwoi9hUmXV2TP17Sviz43rK1-6sqIMAg
-
 ###Get all books - default page 0 and size 10
 GET http://localhost:8080/api/v1/book
 Authorization: Bearer {{userToken}}
 
 ###Get all books - page 1 and size 5
-GET http://localhost:8080/api/v1/book?page=1&size=5
-Authorization: Bearer {{userToken}}
+GET http://localhost:8080/api/v1/book?page=1.5&size=5
+Authorization: Bearer {{adminToken}}
 
-###Get all books - page = 100 (no data)
-GET http://localhost:8080/api/v1/book?page=100
-Authorization: Bearer {{userToken}}
-
-###Get all books - page = -1 (no data)
-GET http://localhost:8080/api/v1/book?page=-1
-Authorization: Bearer {{userToken}}
-
-###Get a book by id - 3
-GET http://localhost:8080/api/v1/book/3
-Authorization: Bearer {{userToken}}
-
-###Get a book by id - 100 (no data)
-GET http://localhost:8080/api/v1/book/100
-Authorization: Bearer {{userToken}}
-
-###Get a book by id - -1
-GET http://localhost:8080/api/v1/book/-1
-Authorization: Bearer {{userToken}}
-
-###Get a book by id - 1.5
-GET http://localhost:8080/api/v1/book/1.5
-Authorization: Bearer {{userToken}}
-
-###Get a book by category id - 2
-GET http://localhost:8080/api/v1/book/category/2
-Authorization: Bearer {{userToken}}
+###Get all books - category = 1
+GET http://localhost:8080/api/v1/book?page=0&filter=category.id=1
+Authorization: Bearer {{adminToken}}
 
 ### Create a new book - invalid category id
 POST http://localhost:8080/api/v1/book

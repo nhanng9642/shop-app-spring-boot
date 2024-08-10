@@ -9,6 +9,8 @@ import com.example.demo.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -26,32 +28,9 @@ public class OrderService {
     private final Utils utils;
 
     public ApiResponse getAllOrder(
-            Integer page,
-            Integer size,
-            String sort
+           Specification<Order> specification, Pageable pageable
     ) {
-        PageRequest pageRequest = utils.createPageRequest(page, size, sort);
-        Page<Order> orders = orderRepository.findAll(pageRequest);
-
-        return ApiResponse
-                .builder()
-                .success(true)
-                .pagination(utils.createPagination(orders))
-                .data(orders.getContent())
-                .message("Get all orders success!")
-                .build();
-    }
-
-    public ApiResponse getAllByUser(
-            Integer page,
-            Integer size,
-            String sort
-    ) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
-
-        PageRequest pageRequest = utils.createPageRequest(page, size, sort);
-        Page<Order> orders = orderRepository.findAllByUserId(pageRequest, user.getId());
+        Page<Order> orders = orderRepository.findAll(specification, pageable);
 
         return ApiResponse
                 .builder()

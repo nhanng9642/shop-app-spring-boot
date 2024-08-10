@@ -10,8 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -25,9 +26,8 @@ public class BookService {
 
     private final CloudinaryService cloudinaryService;
 
-    public ApiResponse getAllBooks(Integer page, Integer size, String sort) {
-        PageRequest pageRequest = utils.createPageRequest(page, size, sort);
-        Page<Book> books = bookRepository.findAll(pageRequest);
+    public ApiResponse getAllBooks(Specification<Book> specification, Pageable pageable) {
+        Page<Book> books = bookRepository.findAll(specification, pageable);
 
         return ApiResponse.builder()
                 .success(true)
@@ -46,21 +46,6 @@ public class BookService {
                 .data(book)
                 .message("Get book by id success!")
                 .build();
-    }
-
-    public ApiResponse getBookByCategory(Integer categoryId, Integer page, Integer size, String sort) {
-        PageRequest pageRequest = utils.createPageRequest(page, size, sort);
-        Page<Book> books = bookRepository.findBooksByCategoryId(categoryId, pageRequest);
-
-        return ApiResponse.builder()
-                .success(true)
-                .data(books.getContent())
-                .pagination(utils.createPagination(books))
-                .message("Get books by category success!")
-                .build();
-
-
-
     }
 
     public ApiResponse createBook(BookDTO bookDTO) {
@@ -105,18 +90,16 @@ public class BookService {
         if (bookDTO.getBookImage() != null)
             bookImage = cloudinaryService.uploadFile(bookDTO.getBookImage());
 
-        Book book = Book
-                .builder()
-                .author(bookDTO.getAuthor())
-                .description(bookDTO.getDescription())
-                .price(bookDTO.getPrice())
-                .publishedYear(bookDTO.getPublishedYear())
-                .title(bookDTO.getTitle())
-                .quantityAvailable(bookDTO.getQuantityAvailable())
-                .bookImage(bookImage)
-                .publisher(bookDTO.getPublisher())
-                .category(category)
-                .build();
+        Book book = new Book();
+        book.setTitle(bookDTO.getTitle());
+        book.setAuthor(bookDTO.getAuthor());
+        book.setPublisher(bookDTO.getPublisher());
+        book.setPublishedYear(bookDTO.getPublishedYear());
+        book.setPrice(bookDTO.getPrice());
+        book.setQuantityAvailable(bookDTO.getQuantityAvailable());
+        book.setDescription(bookDTO.getDescription());
+        book.setBookImage(bookImage);
+        book.setCategory(category);
 
         return book;
     }

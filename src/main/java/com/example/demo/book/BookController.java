@@ -1,14 +1,13 @@
 package com.example.demo.book;
 
 import com.example.demo.response.ApiResponse;
-import com.example.demo.utils.Utils;
+import com.turkraft.springfilter.boot.Filter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.nio.file.Path;
 
 @RestController
 @RequestMapping("/api/v1/book")
@@ -17,12 +16,9 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping("")
-    public ResponseEntity<ApiResponse> getAllBooks(
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer size,
-            @RequestParam(required = false) String sort
-    ) {
-        return ResponseEntity.ok(bookService.getAllBooks(page, size, sort));
+    public ResponseEntity<ApiResponse> getAllBooks
+            (@Filter Specification<Book> specification, Pageable pageable) {
+        return ResponseEntity.ok(bookService.getAllBooks(specification, pageable));
     }
 
     @GetMapping("/{id}")
@@ -30,16 +26,6 @@ public class BookController {
             @PathVariable Integer id
     ) {
         return ResponseEntity.ok(bookService.getBookById(id));
-    }
-
-    @GetMapping("/category/{categoryId}")
-    public ResponseEntity<ApiResponse> getBookByCategory(
-            @PathVariable Integer categoryId,
-            @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer size,
-            @RequestParam(required = false) String sort
-    ) {
-        return ResponseEntity.ok(bookService.getBookByCategory(categoryId, page, size, sort));
     }
 
     @PreAuthorize("hasRole('ADMIN')")

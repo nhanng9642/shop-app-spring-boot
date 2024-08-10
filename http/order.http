@@ -6,14 +6,6 @@ Authorization: Bearer {{userToken}}
 GET http://localhost:8080/api/v1/order
 Authorization: Bearer {{adminToken}}
 
-###Get all order by user
-GET http://localhost:8080/api/v1/order/me
-Authorization: Bearer {{userToken}}
-
-###Get 1 order by id
-GET http://localhost:8080/api/v1/order/2
-Authorization: Bearer {{adminToken}}
-
 ###Create a cart
 POST http://localhost:8080/api/v1/order/me/cart
 Authorization: Bearer {{userToken}}

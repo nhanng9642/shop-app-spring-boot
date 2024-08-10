@@ -24,13 +24,6 @@ public class TestController {
     private final StorageService storageService;
     private final CloudinaryService cloudinaryService;
     private final BookRepository bookRepository;
-    private final OrderRepository orderRepository;
-
-    @GetMapping("/book")
-    List<BookTestDTO> getBook() {
-        return bookRepository.findAllDTO();
-    }
-
 
     @GetMapping("/file/{filename}")
     String getFileName(@PathVariable String filename) {
