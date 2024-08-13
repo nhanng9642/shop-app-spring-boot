@@ -1,12 +1,14 @@
 package com.example.demo.auth;
 
 import com.example.demo.exception.BadRequestException;
+import com.example.demo.response.ApiResponse;
 import com.example.demo.security.JwtService;
 import com.example.demo.token.Token;
 import com.example.demo.token.TokenRepository;
 import com.example.demo.user.Role;
 import com.example.demo.user.User;
 import com.example.demo.user.UserRepository;
+import com.example.demo.utils.Constant;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -177,6 +179,37 @@ public class AuthenticationService {
                 .refreshToken(refreshToken)
                 .accessToken(accessToken)
                 .timeExpiration(timeExpiration)
+                .build();
+    }
+
+    public String generateLinkResetPassword(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Email not found"));
+        String token = jwtService.generateResetToken(user);
+        return Constant.URL_SERVER + "/api/v1/auth/reset-password?token=" + token;
+    }
+
+    public ApiResponse resetPassword(String token, ResetPwRequest request) {
+        String password = request.getPassword();
+        String confirmPassword = request.getConfirmPassword();
+
+        String username = jwtService.extractUsername(token);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Username " + username + " not found"));
+
+        if (!password.equals(confirmPassword))
+            throw new BadRequestException("Password and Confirm Password must be the same");
+
+        if (jwtService.isTokenExpired(token))
+            throw new BadRequestException("Token is expired");
+
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+
+        return ApiResponse
+                .builder()
+                .success(true)
+                .message("Password has been reset")
                 .build();
     }
 }

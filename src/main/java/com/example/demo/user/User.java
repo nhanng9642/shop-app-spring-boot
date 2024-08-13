@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -23,9 +24,14 @@ public class User implements UserDetails {
     private Integer id;
 
     private String email;
+
     private String username;
+
+    @JsonIgnore
     private String password;
+
     private String firstName;
+
     private String lastName;
 
     @Enumerated(EnumType.STRING)

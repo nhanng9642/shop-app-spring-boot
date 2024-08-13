@@ -22,12 +22,25 @@ spring:
       pageable:
         default-page-size: 15
         max-page-size: 50
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: nhann9642@gmail.com
+    password: unrbfpdgykopxyto
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 application:
   security:
     jwt:
+      reset-token:
+        expiration: 300000 # 5 minutes
       secret-key: dba9dc7401fbe88660e4d65aad0cb90dbb423509c6cafe2ae4fbfd56fd99e6d5
-      expiration: 60 # a minute
+      expiration: 3600 # a minute
       refresh-token:
         expiration: 604800000 # 7 days
   cloudinary:
