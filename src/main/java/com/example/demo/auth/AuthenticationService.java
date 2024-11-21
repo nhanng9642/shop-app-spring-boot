@@ -7,30 +7,23 @@ import com.example.demo.token.Token;
 import com.example.demo.token.TokenRepository;
 import com.example.demo.user.Role;
 import com.example.demo.user.User;
+import com.example.demo.user.UserDTO;
 import com.example.demo.user.UserRepository;
 import com.example.demo.utils.Constant;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -44,32 +37,36 @@ public class AuthenticationService {
     @Value("${application.security.jwt.expiration}")
     private int timeExpiration;
 
-    public AuthenticationResponse login(@Valid LoginRequest request) {
+    public ApiResponse login(@Valid LoginRequest request) {
         String username = request.getUsername();
-
-        authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        username,
-                        request.getPassword()
-                )
-        );
-
         User user = userRepository.findUserByUsernameOrEmail(username, username)
-                .orElseThrow(() -> new UsernameNotFoundException("Username or Email not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("Username or email not found"));
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new BadRequestException("Password is incorrect");
+        }
 
         String accessToken = jwtService.generateJwtToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
 
         saveUserToken(user, refreshToken);
-        return AuthenticationResponse
+        var data =  AuthenticationResponse
                 .builder()
                 .refreshToken(refreshToken)
                 .accessToken(accessToken)
+                .user(new UserDTO(user))
                 .timeExpiration(timeExpiration)
+                .build();
+
+        return ApiResponse
+                .builder()
+                .success(true)
+                .data(data)
+                .message("Login successfully")
                 .build();
     }
 
-    public AuthenticationResponse register(@Valid RegisterRequest request){
+    public ApiResponse register(@Valid RegisterRequest request){
         User user = User
                 .builder()
                 .email(request.getEmail())
@@ -94,11 +91,18 @@ public class AuthenticationService {
         userRepository.save(user);
         saveUserToken(user, refreshToken);
 
-        return AuthenticationResponse
+        var token = AuthenticationResponse
                 .builder()
                 .refreshToken(refreshToken)
                 .accessToken(accessToken)
                 .timeExpiration(timeExpiration)
+                .build();
+
+        return ApiResponse
+                .builder()
+                .success(true)
+                .data(token)
+                .message("Register successfully")
                 .build();
     }
 

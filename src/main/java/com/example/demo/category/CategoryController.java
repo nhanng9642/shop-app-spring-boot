@@ -2,6 +2,7 @@ package com.example.demo.category;
 
 import com.example.demo.response.ApiResponse;
 import com.turkraft.springfilter.boot.Filter;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -26,15 +27,20 @@ public class CategoryController {
     }
 
     @PostMapping("")
-    public ResponseEntity<ApiResponse> createCategory(@RequestBody Category category ) {
+    public ResponseEntity<ApiResponse> createCategory(@Valid @RequestBody Category category ) {
         return ResponseEntity.ok(categoryService.createCategory(category));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse> updateCategory
             (@PathVariable Integer id,
-             @RequestBody Category category
+             @Valid @RequestBody Category category
             ) {
         return ResponseEntity.ok(categoryService.updateCategory(id, category));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Integer id) {
+        return ResponseEntity.ok(categoryService.deleteCategory(id));
     }
 }

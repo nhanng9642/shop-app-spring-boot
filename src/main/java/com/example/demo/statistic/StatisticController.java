@@ -38,4 +38,9 @@ public class StatisticController {
     public ResponseEntity<ApiResponse> getMonthlyRevenueStatistic(Pageable pageable) {
         return ResponseEntity.ok(statisticService.getMonthlyRevenue(pageable));
     }
+
+    @GetMapping("/total-order")
+    public ResponseEntity<ApiResponse> getTotalOrder() {
+        return ResponseEntity.ok(statisticService.getTotalOrder());
+    }
 }

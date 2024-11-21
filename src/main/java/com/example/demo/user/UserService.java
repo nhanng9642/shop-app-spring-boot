@@ -74,4 +74,14 @@ public class UserService {
                 .message("Profile updated successfully")
                 .build();
     }
+
+    public ApiResponse getProfile(Principal connectedUser) {
+        User user = (User)((UsernamePasswordAuthenticationToken)connectedUser).getPrincipal();
+
+        return ApiResponse.builder()
+                .data(new UserDTO(user))
+                .success(true)
+                .message("Profile fetched successfully")
+                .build();
+    }
 }

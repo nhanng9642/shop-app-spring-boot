@@ -64,7 +64,7 @@ public class OrderService {
                     .orElseThrow(() -> new BadRequestException("Book not found!"));
 
             if (book.getQuantityAvailable() < quantity) {
-                throw new BadRequestException("Book quantity not enough!");
+                throw new BadRequestException(String.format("Book with ID - %d not enough quantity!", book.getId()));
             }
 
             book.setQuantityAvailable(book.getQuantityAvailable() - quantity);

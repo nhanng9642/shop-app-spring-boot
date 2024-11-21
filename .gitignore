@@ -35,3 +35,5 @@ build/
 src/main/java/com/example/demo/test/
 http/test.http
 file-upload/
+
+logs/

@@ -43,4 +43,9 @@ public class UserController {
             Principal connectedUser) {
         return ResponseEntity.ok(userService.updateProfile(user, connectedUser));
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse> getProfile(Principal connectedUser) {
+        return ResponseEntity.ok(userService.getProfile(connectedUser));
+    }
 }

@@ -38,9 +38,9 @@ application:
   security:
     jwt:
       reset-token:
-        expiration: 300000 # 5 minutes
+        expiration: 300000  # 5 minutes
       secret-key: dba9dc7401fbe88660e4d65aad0cb90dbb423509c6cafe2ae4fbfd56fd99e6d5
-      expiration: 3600 # a minute
+      expiration: 3600000 # 1 hour
       refresh-token:
         expiration: 604800000 # 7 days
   cloudinary:
@@ -49,5 +49,15 @@ application:
     secret: 6HthwnRDSauy3eEA8XECMcZCYwQ
   default:
     image: "ddd"
+
+logging:
+  level:
+    root: ERROR
+    com.example.demo.security.RequestLoggingFilter: INFO
+  file:
+    name: logs/application.log  # File log chung
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg [%file:%line]%n"
+
 
 

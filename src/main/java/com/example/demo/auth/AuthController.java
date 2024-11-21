@@ -3,7 +3,7 @@ package com.example.demo.auth;
 import com.example.demo.response.ApiResponse;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.constraints.Email;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,12 +20,12 @@ public class AuthController {
     private final EmailService emailService;
 
     @PostMapping("/login")
-    ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest request) {
+    ResponseEntity<ApiResponse> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
 
-    @PostMapping("/sign-in")
-    ResponseEntity<AuthenticationResponse> signIn(@RequestBody RegisterRequest request) {
+    @PostMapping("/sign-up")
+    ResponseEntity<ApiResponse> signIn(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authService.register(request));
     }
 

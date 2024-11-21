@@ -76,3 +76,26 @@ CREATE TABLE order_detail (
           FOREIGN KEY (order_id) REFERENCES sale_order(id),
           FOREIGN KEY (book_id) REFERENCES book(id)
 );
+
+DELIMITER $$
+
+CREATE PROCEDURE usp_get_monthly_revenue()
+BEGIN
+    SELECT
+        MONTH(s.order_date) AS month,
+        YEAR(s.order_date) AS year,
+        SUM(s.total) AS total
+    FROM
+        sale_order s
+    GROUP BY
+        YEAR(s.order_date), MONTH(s.order_date)
+    ORDER BY
+        YEAR(s.order_date) DESC, MONTH(s.order_date) DESC
+    LIMIT 6;
+END$$
+
+DELIMITER ;
+
+call usp_get_monthly_revenue();
+-- show all procedures
+SHOW PROCEDURE STATUS;

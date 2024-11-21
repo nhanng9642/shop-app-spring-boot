@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -74,11 +75,13 @@ public class StatisticService {
                 .build();
     }
 
+    @Transactional
     public ApiResponse getMonthlyRevenue(Pageable pageable) {
-        List<Object[]> monthlyRevenues = orderRepository.getMonthlyRevenueStatistic(pageable);
+        var monthlyRevenues = orderRepository.getMonthlyRevenueStatistic(pageable);
 
         return ApiResponse.builder()
-                .data(monthlyRevenues)
+                .data(monthlyRevenues.getContent())
+                .pagination(utils.createPagination(monthlyRevenues))
                 .success(true)
                 .message("Monthly revenue")
                 .build();

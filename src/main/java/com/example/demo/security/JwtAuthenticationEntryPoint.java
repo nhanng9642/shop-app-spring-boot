@@ -22,9 +22,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
         String errorMessage = authException.getMessage();
-        ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setStatus(401);
-        errorResponse.setMessage(errorMessage);
+        ErrorResponse errorResponse = new ErrorResponse(401, errorMessage);
 
         // Convert the response body to JSON and write it to the response
         ObjectMapper objectMapper = new ObjectMapper();

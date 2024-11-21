@@ -16,14 +16,14 @@ Content-Type: application/json
   "orderDetails": [
     {
       "book": {
-        "id": 1
+        "id": 3
       },
-      "quantity": 22,
+      "quantity": 12,
       "price": 100
     },
     {
       "book": {
-        "id": 2
+        "id": 5
       },
       "quantity": 1,
       "price": 25.9

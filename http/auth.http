@@ -2,16 +2,16 @@
 @adminToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGEyIiwiaWF0IjoxNzIzMDg2MjMwLCJleHAiOjE3MjM2OTEwMzB9.Y4i9pnnz3ognrVg7EThk8y-YzC19cH7g0PlcmReWyVVhvAQAqh0fxcRwoi9hUmXV2TP17Sviz43rK1-6sqIMAg
 @expiredToken = eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaGFuIiwiaWF0IjoxNzE5NjU4NDE0LCJleHAiOjE3MTk2NTg0MTR9.FTmgu3OXLSJ43PgBrtSxZ5giRCOepyCO9e4aGLdQ9n1GXwoIvcbPpZpW4unED581f5Yl6lsxLmOjy1PJt3wupw
 
-### Sign in
-POST http://localhost:8080/api/v1/auth/sign-in
+### Sign up
+POST http://localhost:8080/api/v1/auth/sign-up
 Content-Type: application/json
 
 {
-  "username": "nha",
-  "password": "123456",
-  "email": "nhaan9642@gmail.com",
+  "password": "1256",
+  "email": "nhaan92@gmail.com",
   "firstName": "nhan",
-  "lastName": "nguyen"
+  "lastName": "nguyen",
+  "username": "nha2"
 }
 
 ### Login - admin
@@ -19,8 +19,8 @@ POST http://localhost:8080/api/v1/auth/login
 Content-Type: application/json
 
 {
-  "username": "nha2",
-  "password": "123456"
+  "username": "nhakk",
+  "password": "12456"
 }
 
 ### Expired token

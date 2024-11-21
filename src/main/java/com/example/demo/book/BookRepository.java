@@ -16,4 +16,6 @@ public interface BookRepository extends JpaRepository<Book, Integer>, JpaSpecifi
 
     List<Book> findTopByQuantityAvailable(int limit);
 
+    boolean existsBookByCategoryId(Integer categoryId);
+
 }

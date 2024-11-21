@@ -2,7 +2,9 @@ package com.example.demo.book;
 
 import com.example.demo.category.Category;
 import com.example.demo.category.CategoryRepository;
+import com.example.demo.category.CategoryService;
 import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.CategoryNotFoundException;
 import com.example.demo.response.ApiResponse;
 import com.example.demo.utils.CloudinaryService;
 import com.example.demo.utils.Utils;
@@ -18,13 +20,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BookService {
     private final BookRepository bookRepository;
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
     private final Utils utils;
+    private final CloudinaryService cloudinaryService;
 
     @Value("${application.default.image}")
     private String defaultBookImage;
-
-    private final CloudinaryService cloudinaryService;
 
     public ApiResponse getAllBooks(Specification<Book> specification, Pageable pageable) {
         Page<Book> books = bookRepository.findAll(specification, pageable);
@@ -49,9 +50,7 @@ public class BookService {
     }
 
     public ApiResponse createBook(BookDTO bookDTO) {
-
         Book newBook = bookRepository.save(convertToBook(bookDTO));
-
         return ApiResponse.builder()
                 .success(true)
                 .data(newBook)
@@ -85,8 +84,10 @@ public class BookService {
 
     private Book convertToBook(BookDTO bookDTO) {
         String bookImage = defaultBookImage;
-        checkExistedCategory(bookDTO.getCategoryId());
-        Category category = categoryRepository.findById(bookDTO.getCategoryId()).orElse(null);
+
+        int categoryId = bookDTO.getCategoryId();
+        Category category = categoryService.getCategory(categoryId);
+
         if (bookDTO.getBookImage() != null)
             bookImage = cloudinaryService.uploadFile(bookDTO.getBookImage());
 
@@ -102,11 +103,6 @@ public class BookService {
         book.setCategory(category);
 
         return book;
-    }
-
-    private void checkExistedCategory(Integer categoryId) {
-        if (categoryRepository.findById(categoryId).isEmpty())
-            throw new BadRequestException("Category is not found!");
     }
 
     private void checkExistedBook(Integer id) {

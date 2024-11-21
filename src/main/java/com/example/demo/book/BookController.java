@@ -2,6 +2,7 @@ package com.example.demo.book;
 
 import com.example.demo.response.ApiResponse;
 import com.turkraft.springfilter.boot.Filter;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -31,7 +32,7 @@ public class BookController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("")
     public ResponseEntity<ApiResponse> addBook(
-            @ModelAttribute BookDTO bookDTO
+            @Valid @ModelAttribute BookDTO bookDTO
             ) {
         return ResponseEntity.ok(bookService.createBook(bookDTO));
     }
@@ -40,7 +41,7 @@ public class BookController {
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse> updateBook(
             @PathVariable Integer id,
-            @ModelAttribute BookDTO bookDTO
+            @Valid @ModelAttribute BookDTO bookDTO
     ) {
         return ResponseEntity.ok(bookService.updateBook(id, bookDTO));
     }

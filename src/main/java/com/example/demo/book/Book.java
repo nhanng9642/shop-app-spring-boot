@@ -20,7 +20,7 @@ public class Book {
     private String title;
     private String author;
     private String publisher;
-    private String publishedYear;
+    private Integer publishedYear;
     private float price;
     private Integer quantityAvailable;
     private String description;
