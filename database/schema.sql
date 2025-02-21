@@ -3,11 +3,12 @@ use bookstore;
 create table user (
     id          serial                   not null,
     username    varchar(255)             not null unique,
-    email       varchar(255)             not null unique,
-    first_name  varchar(255)             not null,
-    last_name   varchar(255)             not null,
-    password    varchar(255)             not null,
+    email       varchar(255)             null unique,
+    first_name  nvarchar(50)              not null,
+    last_name   nvarchar(50)              null,
+    password    varchar(255)             null,
     role        varchar(255)             not null,
+    fb_id       varchar(255)             null unique,
     inserted_at timestamp default now() not null,
     updated_at  timestamp default now() not null,
     constraint pk_user primary key (id)
@@ -99,3 +100,14 @@ DELIMITER ;
 call usp_get_monthly_revenue();
 -- show all procedures
 SHOW PROCEDURE STATUS;
+
+create table cart (
+    id          serial primary key,
+    user_id     bigint unsigned not null,
+    book_id     bigint unsigned not null,
+    quantity    int not null,
+    inserted_at timestamp default now() not null,
+    updated_at  timestamp default now() not null,
+    foreign key fk_cart_user (user_id) references user(id),
+    foreign key fk_cart_book (book_id) references book(id)
+);

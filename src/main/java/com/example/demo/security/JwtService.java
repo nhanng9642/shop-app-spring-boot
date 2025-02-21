@@ -1,6 +1,8 @@
 package com.example.demo.security;
 
+import com.example.demo.exception.ExpiredTokenException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +43,7 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
+
         return (Claims) Jwts
                 .parser()
                 .verifyWith(getSignInKey())
@@ -48,6 +51,7 @@ public class JwtService {
                 .parse(token)
                 .getPayload();
     }
+
 
     public String generateJwtToken(UserDetails user) {
         return buildToken(new HashMap<>(), user, jwtExpiration);

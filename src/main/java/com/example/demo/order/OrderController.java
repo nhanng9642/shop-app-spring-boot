@@ -23,7 +23,7 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getAllOrder(specification, pageable));
     }
 
-    @PostMapping("/me/cart")
+    @PostMapping("/")
     public ResponseEntity<ApiResponse> createOrder
             (@RequestBody Order order) {
         return ResponseEntity.ok(orderService.createOrder(order));

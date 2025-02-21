@@ -2,7 +2,9 @@ package com.example.demo.order;
 
 import com.example.demo.book.Book;
 import com.example.demo.book.BookRepository;
+import com.example.demo.cart.CartService;
 import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.BookNotFoundException;
 import com.example.demo.response.ApiResponse;
 import com.example.demo.user.User;
 import com.example.demo.utils.Utils;
@@ -26,6 +28,7 @@ public class OrderService {
     private final OrderDetailRepository orderDetailRepository;
     private final BookRepository bookRepository;
     private final Utils utils;
+    private final CartService cartService;
 
     public ApiResponse getAllOrder(
            Specification<Order> specification, Pageable pageable
@@ -52,16 +55,15 @@ public class OrderService {
         order.setOrderDate(new Date());
 
         Order savedOrder = orderRepository.save(order);
-
         List<OrderDetail> orderDetails = order.getOrderDetails();
-        System.out.println(savedOrder.getStatus());
 
         float total = 0;
         for (OrderDetail orderDetail : orderDetails) {
+            orderDetail.setId(null);
             orderDetail.setOrder(savedOrder);
             int quantity = orderDetail.getQuantity();
             Book book = bookRepository.findById(orderDetail.getBook().getId())
-                    .orElseThrow(() -> new BadRequestException("Book not found!"));
+                    .orElseThrow(() -> new BookNotFoundException(orderDetail.getBook().getId()));
 
             if (book.getQuantityAvailable() < quantity) {
                 throw new BadRequestException(String.format("Book with ID - %d not enough quantity!", book.getId()));
@@ -69,14 +71,15 @@ public class OrderService {
 
             book.setQuantityAvailable(book.getQuantityAvailable() - quantity);
             bookRepository.save(book);
-            orderDetail.setTotal(orderDetail.getPrice() * orderDetail.getQuantity());
+            orderDetail.setTotal(book.getPrice() * orderDetail.getQuantity());
             total += orderDetail.getTotal();
         }
 
         savedOrder.setTotal(total);
         orderDetailRepository.saveAll(orderDetails);
         orderRepository.save(savedOrder);
-
+        cartService.deleteAllCartItems(user);
+        
         return ApiResponse
                 .builder()
                 .success(true)

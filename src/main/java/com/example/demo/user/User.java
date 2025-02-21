@@ -1,5 +1,6 @@
 package com.example.demo.user;
 
+import com.example.demo.cart.Cart;
 import com.example.demo.order.Order;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -34,6 +35,12 @@ public class User implements UserDetails {
 
     private String lastName;
 
+    private String avatar;
+
+    private Boolean isVerified;
+
+    private String fbId;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -42,7 +49,11 @@ public class User implements UserDetails {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Cart> carts;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Order> orders;
 }

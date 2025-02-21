@@ -5,12 +5,14 @@ import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Parameter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -43,8 +45,7 @@ public class AuthController {
     @GetMapping("/recover-password")
     ResponseEntity<ApiResponse> sendEmailToResetPw(@RequestParam String email)
             throws MessagingException, IOException {
-        String linkReset = authService.generateLinkResetPassword(email);
-        return ResponseEntity.ok(emailService.sendResetLink(email, linkReset));
+        return ResponseEntity.ok(authService.sendResetLink(email));
     }
 
     @PostMapping("/reset-password")
@@ -52,5 +53,20 @@ public class AuthController {
                                               @RequestBody ResetPwRequest request
     ) {
         return ResponseEntity.ok(authService.resetPassword(token, request));
+    }
+
+    @PostMapping("/oauth2/google")
+    ResponseEntity<ApiResponse> googleLogin(@RequestBody CredentialDTO credential) {
+        return ResponseEntity.ok(authService.googleLogin(credential.getCredential()));
+    }
+
+    @PostMapping("/oauth2/facebook")
+    ResponseEntity<ApiResponse> facebookLogin(@RequestBody CredentialDTO credential) {
+        return ResponseEntity.ok(authService.facebookLogin(credential.getAccessToken()));
+    }
+
+    @GetMapping("/verify-email")
+    ResponseEntity<ApiResponse> verifyEmail(@RequestParam String token) {
+        return ResponseEntity.ok(authService.verifyEmail(token));
     }
 }

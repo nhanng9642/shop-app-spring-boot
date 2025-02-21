@@ -1,5 +1,6 @@
 package com.example.demo.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class GlobalException {
     }
 
     @ExceptionHandler(TypeMismatchException.class)
-    ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException e) {
+    ResponseEntity<ErrorResponse> handleIllegalArgumentException(TypeMismatchException e) {
         logError(e);
         ErrorResponse errorResponse = new ErrorResponse(400, e.getMessage());
         return ResponseEntity.status(400).body(errorResponse);
@@ -66,6 +67,13 @@ public class GlobalException {
         logError(e);
         ErrorResponse errorResponse = new ErrorResponse(404, e.getMessage());
         return ResponseEntity.status(404).body(errorResponse);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    ResponseEntity<ErrorResponse> handleExpiredTokenException(ExpiredJwtException e) {
+        logError(e);
+        ErrorResponse errorResponse = new ErrorResponse(400, e.getMessage());
+        return ResponseEntity.status(400).body(errorResponse);
     }
 
     @ExceptionHandler(Exception.class)

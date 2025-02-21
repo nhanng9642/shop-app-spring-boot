@@ -1,6 +1,7 @@
 package com.example.demo.auth;
 
 import com.example.demo.response.ApiResponse;
+import io.swagger.v3.core.util.OpenAPI30To31;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -9,6 +10,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Map;
 
 import static org.antlr.v4.runtime.misc.Utils.readFile;
 
@@ -16,32 +18,32 @@ import static org.antlr.v4.runtime.misc.Utils.readFile;
 @RequiredArgsConstructor
 public class EmailService {
     private final JavaMailSender mailSender;
+    private final String EMAIL_FROM = "nhann9642@gmail.com";
+    private final String EMAIL_RESET_PW = "src/main/resources/templates/send-link.html";
 
-    public ApiResponse sendResetLink(String to, String link) throws MessagingException, IOException {
+    public void sendEmail(String to, String subject, String template,
+                                 Map<String, String> map) throws MessagingException, IOException {
         MimeMessage message = mailSender.createMimeMessage();
-
-        message.setFrom(new InternetAddress("nhann9642@gmail.com"));
+        message.setFrom(new InternetAddress(EMAIL_FROM));
         message.setRecipients(MimeMessage.RecipientType.TO, to);
-        message.setSubject("Reset your password!");
+        message.setSubject(subject);
 
-        // Read the HTML template into a String variable
-        String htmlTemplate = String.valueOf(
-                readFile("src/main/resources/templates/reset-pw.html"));
+        String htmlTemplate = String.valueOf(readFile(template));
 
-        // Replace placeholders in the HTML template with dynamic values
-        htmlTemplate = htmlTemplate.replace("[link]", link);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            htmlTemplate = htmlTemplate.replace("[" + entry.getKey() + "]", entry.getValue());
+        }
 
-        System.out.println(htmlTemplate);
-        // Set the email's content to be the HTML template
         message.setContent(htmlTemplate, "text/html; charset=utf-8");
-
         mailSender.send(message);
-        return ApiResponse
-                .builder()
-                .success(true)
-                .message("Email sent successfully!")
-                .build();
+    }
 
+    public void sendResetLink(String to, String link) throws MessagingException, IOException {
+        sendEmail(to, "Reset Password", EMAIL_RESET_PW, Map.of("link", link));
+    }
+
+    public void sendVerifyEmail(String to, String link) throws MessagingException, IOException {
+        sendEmail(to, "Verify Email", EMAIL_RESET_PW, Map.of("link", link));
     }
 
 }

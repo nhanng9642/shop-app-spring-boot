@@ -4,6 +4,7 @@ import com.example.demo.category.Category;
 import com.example.demo.category.CategoryRepository;
 import com.example.demo.category.CategoryService;
 import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.BookNotFoundException;
 import com.example.demo.exception.CategoryNotFoundException;
 import com.example.demo.response.ApiResponse;
 import com.example.demo.utils.CloudinaryService;
@@ -23,9 +24,6 @@ public class BookService {
     private final CategoryService categoryService;
     private final Utils utils;
     private final CloudinaryService cloudinaryService;
-
-    @Value("${application.default.image}")
-    private String defaultBookImage;
 
     public ApiResponse getAllBooks(Specification<Book> specification, Pageable pageable) {
         Page<Book> books = bookRepository.findAll(specification, pageable);
@@ -59,10 +57,16 @@ public class BookService {
     }
 
     public ApiResponse updateBook(Integer id, BookDTO bookDTO) {
-        Book book = convertToBook(bookDTO);
         checkExistedBook(id);
-        book.setId(id);
-        Book updatedBook = bookRepository.save(book);
+        Book newBook = convertToBook(bookDTO);
+        Book oldBook = bookRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException("Book not found!"));
+
+        newBook.setId(id);
+        if (newBook.getBookImage() == null)
+            newBook.setBookImage(oldBook.getBookImage());
+
+        Book updatedBook = bookRepository.save(newBook);
 
         return ApiResponse.builder()
                 .success(true)
@@ -83,7 +87,7 @@ public class BookService {
     }
 
     private Book convertToBook(BookDTO bookDTO) {
-        String bookImage = defaultBookImage;
+        String bookImage = null;
 
         int categoryId = bookDTO.getCategoryId();
         Category category = categoryService.getCategory(categoryId);
@@ -99,14 +103,22 @@ public class BookService {
         book.setPrice(bookDTO.getPrice());
         book.setQuantityAvailable(bookDTO.getQuantityAvailable());
         book.setDescription(bookDTO.getDescription());
-        book.setBookImage(bookImage);
+
+        if (bookImage != null)
+            book.setBookImage(bookImage);
+
         book.setCategory(category);
 
         return book;
     }
 
-    private void checkExistedBook(Integer id) {
+    public void checkExistedBook(Integer id) {
         if (bookRepository.findById(id).isEmpty())
-            throw new BadRequestException("Book not found");
+            throw new BookNotFoundException(id);
+    }
+
+    public Book getBook(Integer id) {
+        return bookRepository.findById(id)
+                .orElseThrow(() -> new BookNotFoundException(id));
     }
 }
